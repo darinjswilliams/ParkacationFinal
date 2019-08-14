@@ -1,0 +1,6 @@
+framework module Pods_ParkacationTests {
+  umbrella header "Pods-ParkacationTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
