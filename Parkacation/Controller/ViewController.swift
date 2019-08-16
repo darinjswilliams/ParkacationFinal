@@ -19,6 +19,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var storageRef: StorageReference!
     var flagModel = [FlagsModel]()
     
+    var dcntrl: DataController! {
+        var object = UIApplication.shared.delegate
+        var appDelegate = object as! AppDelegate
+        return appDelegate.dataController
+    }
+    
     
     var imageReference: StorageReference {
         return storageRef.child("us_flags")

@@ -20,7 +20,17 @@ var dbRef: DatabaseReference!
 var storageRef: StorageReference!
 var flagModel = [FlagsModel]()
 
+//lets set up dependencty injections
+var dataController:DataController!
+    
+    var dcntrl: DataController! {
+        var object = UIApplication.shared.delegate
+        var appDelegate = object as! AppDelegate
+        return appDelegate.dataController
+    }
+    
 
+    
 override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -98,6 +108,8 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
 
 extension ParkViewController {
     
+ 
+
     fileprivate func configureDatabase() {
         //MARK CALL FLAG API
         // Do any additional setup after loading the view.

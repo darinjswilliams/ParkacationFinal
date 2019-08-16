@@ -30,7 +30,7 @@
         <!--Park View Controller-->
         <scene sceneID="9ND-fy-Z2r">
             <objects>
-                <viewController id="g28-iP-fR1" customClass="ParkViewController" customModule="Parkacation" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ParkView" id="g28-iP-fR1" customClass="ParkViewController" customModule="Parkacation" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lAI-cC-MpQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -273,7 +273,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="xrn-k4-jRX">
             <objects>
-                <tabBarController id="LIi-r2-Dgl" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="tabView" id="LIi-r2-Dgl" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="J9n-oa-AJH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>

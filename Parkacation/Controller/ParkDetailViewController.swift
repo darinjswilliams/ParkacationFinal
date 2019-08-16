@@ -9,8 +9,9 @@
 import UIKit
 import MapKit
 import CoreLocation
+import CoreData
 
-class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource {
+class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource ,NSFetchedResultsControllerDelegate {
 
     
     var abbrName: String = ""
@@ -29,6 +30,18 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
     
     var parkLoctionCoord: CLLocationCoordinate2D?
     
+    //lets set up dependencty injections
+    var dataController:DataController!
+    
+    
+    //FETCH CONROLLER
+    var fetchedResultsController : NSFetchedResultsController<NationalPark>!
+    
+    var parks : [NationalPark] = []
+    
+    //MARK LETS GET PATH OR CORE DATA SQL LITE FILE TO VIEW
+    let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
+ 
     
     
     //Lets hold name of park
@@ -68,6 +81,12 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
 
     }
     
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        fetchedResultsController = nil
+    }
     
     
     @IBAction func pinPressed(_ sender: UILongPressGestureRecognizer) {
@@ -164,6 +183,40 @@ extension ParkDetailViewController {
         ParkApi.getNationalParks(url: EndPoints.getParks(self.abbrName).url, completionHandler: handleGetParkInfo(parkInfo:error:))
     }
     
+    //MARK SETUP FetchResult Contoller
+    @discardableResult func setUpFetchResultController() -> [NationalPark]? {
+        
+        let fetchRequest : NSFetchRequest<NationalPark> = NationalPark.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "parks", ascending: false)
+        //Use predicate to search
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        //Instaniate fetch results controller
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        //MARK set fetch result controller delegate
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch  {
+            fatalError("Fetching the Pins could not be performed \(error.localizedDescription)")
+        }
+        
+        
+        //MARK GET PINS
+        do {
+            let totalParks = try fetchedResultsController.managedObjectContext.count(for: fetchRequest)
+            for i in 0..<totalParks {
+                parks.append(fetchedResultsController.object(at: IndexPath(row: i, section: 0)))
+            }
+            return parks
+        } catch {
+            return nil
+        }
+        
+    }
+    
     
     func handleGetParkInfo(parkInfo:[Parks]?, error:Error?){
         
@@ -223,6 +276,17 @@ extension ParkDetailViewController {
             debugPrint("Size of dictionary \(self.coorDictionary.count)")
         }
 
+        
+        
+    }
+    
+    
+    func addPin(coordinates: CLLocationCoordinate2D) {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinates
+        mapView.addAnnotation(annotation)
+        mapAnnotations.append(annotation)
+        mapView.showAnnotations(mapAnnotations, animated: true)
     }
     
     func createMapAnnotation(parkInfo:[Parks]) {
