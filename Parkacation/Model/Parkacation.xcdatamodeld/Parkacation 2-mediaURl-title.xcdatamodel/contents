@@ -3,7 +3,9 @@
     <entity name="NationalPark" representedClassName="NationalPark" syncable="YES" codeGenerationType="class">
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="medialUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="parks" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="state" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="State" inverseName="nationalParks" inverseEntity="State" syncable="YES"/>
     </entity>
     <entity name="State" representedClassName="State" syncable="YES" codeGenerationType="class">
@@ -13,7 +15,7 @@
         <relationship name="nationalParks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="NationalPark" inverseName="state" inverseEntity="NationalPark" syncable="YES"/>
     </entity>
     <elements>
-        <element name="NationalPark" positionX="-1771.1015625" positionY="-59.39453125" width="128" height="30"/>
+        <element name="NationalPark" positionX="-1771.1015625" positionY="-59.39453125" width="128" height="135"/>
         <element name="State" positionX="-2023.93359375" positionY="-101.67578125" width="128" height="103"/>
     </elements>
 </model>

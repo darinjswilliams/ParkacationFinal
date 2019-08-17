@@ -74,6 +74,7 @@
 		C8223ACC22F368C00032CF1B /* AllStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllStates.swift; sourceTree = "<group>"; };
 		C8223ACE22F36C820032CF1B /* DatabaseConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseConfig.swift; sourceTree = "<group>"; };
 		C825754D23010720008359C3 /* FlagsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagsModel.swift; sourceTree = "<group>"; };
+		C873D8F52307B8E000C348F6 /* Parkacation 2-mediaURl-title.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Parkacation 2-mediaURl-title.xcdatamodel"; sourceTree = "<group>"; };
 		C8B3679022FFDAB5006DFA34 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		C8E1A27922F745AD009EE885 /* ParkDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkDetailViewController.swift; sourceTree = "<group>"; };
 		C8E1A27B22F76B5E009EE885 /* NationalParksModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NationalParksModel.swift; sourceTree = "<group>"; };
@@ -758,9 +759,10 @@
 		C8223A9222ED78510032CF1B /* Parkacation.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				C873D8F52307B8E000C348F6 /* Parkacation 2-mediaURl-title.xcdatamodel */,
 				C8223A9322ED78510032CF1B /* Parkacation.xcdatamodel */,
 			);
-			currentVersion = C8223A9322ED78510032CF1B /* Parkacation.xcdatamodel */;
+			currentVersion = C873D8F52307B8E000C348F6 /* Parkacation 2-mediaURl-title.xcdatamodel */;
 			path = Parkacation.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

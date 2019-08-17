@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return true
         }
         
-        parkDetailViewController.dataController = dataController
+//        parkDetailViewController.dataController = dataController
 
         return true
     }
