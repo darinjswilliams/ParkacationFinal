@@ -230,16 +230,16 @@ extension ParkDetailViewController {
         
         let fetchRequest : NSFetchRequest<NationalPark> = NationalPark.fetchRequest()
         
-        let predicate = NSPredicate(format: "abbrname == %@", self.abbrName)
-        
-        fetchRequest.predicate = predicate
-        
+//        let predicate = NSPredicate(format: " == %@", self.abbrName)
+//
+//        fetchRequest.predicate = predicate
+//
         let sortDescriptor = NSSortDescriptor(key: "parks", ascending: false)
         //Use predicate to search
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         //Instaniate fetch results controller
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil) as! NSFetchedResultsController<NationalPark>
         
         //MARK set fetch result controller delegate
         fetchedResultsController.delegate = self
