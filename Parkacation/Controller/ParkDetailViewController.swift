@@ -12,10 +12,12 @@ import CoreLocation
 import CoreData
 import Foundation
 
-class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource ,NSFetchedResultsControllerDelegate {
+class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource {
 
     
-    var abbrName: String = ""
+    var abbrName: String?
+    
+    var parkDoesNotExist: Bool?
     
     var parkInformation: [Parks] = [Parks]()
     
@@ -30,6 +32,8 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
     var geoCoordinates = [Double : Double]()
     
     var parkLoctionCoord: CLLocationCoordinate2D?
+    
+     private var blockOperation = BlockOperation()
 
     
     //lets set up dependencty injections
@@ -84,7 +88,7 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
         
         
         //MARK CORE DATA RELATIONSHIP
-      self.stateUS = State(context: dataController.persistentContainer.viewContext)
+      self.stateUS = State(context: dataController.viewContext)
         
         //MARK CORE DATA LOCATION
         debugPrint(self.paths[0])
@@ -93,37 +97,33 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
         //Load coordinates data to Map of National Park
         LoadingViewActivity.show(mapView, loadingText: "Loading")
 
-        
-        checkForExistingState()
-        
-        if existingState {
-            
+
+        if parkDoesNotExist! {
+
             // CLEAR PINS FROM MAP
-//            removeAllAnnotations()
-            
+            debugPrint("IT IS \(String(describing: parkDoesNotExist))")
             //MARK CALL COREDATA
             debugPrint("State exists so call Core Data")
             setUpFetchResultController()
             
-            
             //RELOAD MAP ANNOTATIONS
             reloadMapAnnotations()
+        
             
         } else {
-            
-            // CLEAR PINS FROM MAP
-//            removeAllAnnotations()
-            
+
+
             //CALL API
+            debugPrint("IT IS \(String(describing: parkDoesNotExist))")
               debugPrint("State dones not exists so call API")
-            reloadMapView(abbrName: self.abbrName)
-            
+            callParkAPI(abbrName: self.abbrName!)
+
             setUpFetchResultController()
-            
-            
+
+
             //RELOAD TABLE
-            reloadMapAnnotations()
-            
+//            reloadMapAnnotations()
+
         }
         
         
@@ -208,7 +208,39 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
 
 }
 
-extension ParkDetailViewController {
+extension ParkDetailViewController: NSFetchedResultsControllerDelegate  {
+    
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+        switch type {
+        case .insert:
+            guard let newIndexPath = newIndexPath else { break }
+            
+            blockOperation.addExecutionBlock {
+                self.tableView?.insertRows(at: [newIndexPath], with: UITableView.RowAnimation.none)
+            }
+        case .delete:
+            guard let indexPath = indexPath else { break }
+            
+            blockOperation.addExecutionBlock {
+                self.tableView?.deleteRows(at: [indexPath], with: UITableView.RowAnimation.none)
+            }
+        case .update:
+            guard let indexPath = indexPath else { break }
+            
+            blockOperation.addExecutionBlock {
+                self.tableView?.reloadRows(at: [indexPath], with: UITableView.RowAnimation.none)
+            }
+        case .move:
+            guard let indexPath = indexPath, let newIndexPath = newIndexPath else { return }
+            
+            blockOperation.addExecutionBlock {
+                self.tableView?.moveRow(at: indexPath, to: newIndexPath)
+            }
+        }
+    }
+    
     
  
     //MARK SETUP FetchResult Contoller
@@ -216,7 +248,7 @@ extension ParkDetailViewController {
         
         let fetchRequest : NSFetchRequest<NationalPark> = NationalPark.fetchRequest()
         
-        let predicate = NSPredicate(format: "stateAbbrName == %@", self.abbrName)
+        let predicate = NSPredicate(format: "stateAbbrName == %@", self.abbrName!)
 
         fetchRequest.predicate = predicate
 
@@ -225,7 +257,7 @@ extension ParkDetailViewController {
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         //Instaniate fetch results controller
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil) as! NSFetchedResultsController<NationalPark>
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         
         //MARK set fetch result controller delegate
         fetchedResultsController.delegate = self
@@ -258,10 +290,7 @@ extension ParkDetailViewController {
                 //MARK ADD COORDINATES TO CORE DATA
                 debugPrint("ParksDetailView: ViewDidLoad: Parks are not empty")
                 addParkPin(coordinates: CLLocationCoordinate2D(latitude: park.latitude, longitude: park.longitude), title: park.title!, subtitle: park.medialUrl! )
-                
-                tableView.reloadData()
-                
-                
+
             }
             
         } else {
@@ -390,169 +419,88 @@ extension ParkDetailViewController {
 
 extension ParkDetailViewController {
     
-    func processResponse(withPlacemarks placemarks: [CLPlacemark]?, error: Error?) {
-        // Update View
-        
-        if let error = error {
-            debugPrint("Unable to Forward Geocode Address (\(error))")
-            
-        } else {
-            var location: CLLocation?
-
-            if let placemarks = placemarks, placemarks.count > 0 {
-                location = placemarks.first?.location
-                debugPrint("first location")
-            }
-            
-            if let location = location {
-                let coordinate = location.coordinate
-                
-                var dictionaryOrCoord: [Double : Double] = [coordinate.latitude : coordinate.longitude]
-                
-                //appenad to dictionary
-                coorDictionary.append(dictionaryOrCoord)
-                 debugPrint("\(coordinate.latitude), \(coordinate.longitude)")
-            } else {
-                 debugPrint("No Matching Location Found")
-            }
-        }
-    }
-
+    //MARK: ReloadMapView - GET PARK DATA AND SAVE TO CORE DATA
     
-    
-}
-
-extension ParkDetailViewController {
-    
-    //MARK GET PARK DATA AND SAVE TO CORE DATA
-    
-    @objc func reloadMapView(abbrName: String){
+    @objc func callParkAPI(abbrName: String){
         
         ParkApi.getNationalParks(url: EndPoints.getParks(abbrName).url, completionHandler: handleGetParkInfo(parkInfo:error:))
     }
     
     
-    fileprivate func checkForExistingState() {
-        //MARK CHECK TO SEE IF IT EXIST IN CORE DATA
-        //MARK SAVE TO CORE DATA
-        let fetchRequest:NSFetchRequest<State> = State.fetchRequest()
-        
-        let predicate = NSPredicate(format: "abbrName == %@", self.abbrName)
-        
-        fetchRequest.predicate = predicate
-        
-        fetchRequest.fetchLimit = 1
-        
-        
-        let sortDescriptor = NSSortDescriptor(key: "abbrName", ascending: false)
-        
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        
-      
-        genericfetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil) as? NSFetchedResultsController<State> as! NSFetchedResultsController<NSFetchRequestResult>
-        
-//        fetchedResultsController.delegate = self
-        
-        do {
-            try genericfetchedResultsController.performFetch()
-        } catch  let error {
-            debugPrint("DetatilViewController: catchStatement \(error.localizedDescription)")
-            fatalError(error.localizedDescription)
-        }
-        
-        
-        do {
-            
-            let totalCount = try genericfetchedResultsController.managedObjectContext.count(for: fetchRequest)
-            
-            if totalCount > 0 {
-                print("total count \(totalCount)")
-                 debugPrint("Existing State is true")
-                self.existingState = true
-            } else {
-                debugPrint("Existing State is false")
-                existingState = false
-                self.existingState = false
-            }
-            
-        } catch let error {
-            print("setupFetchedResultsControllerAndGetPhotos: \(error.localizedDescription)")
-        }
-    }
-    
-    
     func handleGetParkInfo(parkInfo:[Parks]?, error:Error?){
         
-
+        
         guard let parkInfo = parkInfo, !parkInfo.isEmpty else { return }
         
-    
-            //MARK SAVE STATE TO CORE DATA
-           stateUS.abbrName = self.abbrName
-
-            do {
-                try dataController.persistentContainer.viewContext.save()
-            } catch let error {
+        
+        //MARK SAVE STATE TO CORE DATA
+        stateUS.abbrName = self.abbrName
+        
+        LoadingViewActivity.show(tableView, loadingText: "Loading")
+        
+        for info in parkInfo {
+            
+            let coordinates = info.coordinates
+            
+            
+            if (!info.coordinates.isEmpty){
                 
-                debugPrint(error.localizedDescription)
+                
+                let separators = CharacterSet(charactersIn: ":,")
+                let coordinateParts = info.coordinates.components(separatedBy: separators)
+                
+                let latitude = (coordinateParts[1] as NSString).doubleValue
+                let longitude  = (coordinateParts[3] as NSString).doubleValue
+                
+                let npCoordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            DispatchQueue.main.async {
+                self.saveToCoreData(parkName: info.fullName, mediaUrl: info.parkUrl, title: info.name, npCoordinates: npCoordinates)
+             }
+                debugPrint("No Coordinates \(info.name), .... \(coordinates)")
+                
             }
             
-            for info in parkInfo {
-                
-                let coordinates = info.coordinates
-                
-                
-                if (!info.coordinates.isEmpty){
-                    
-                    
-                    let separators = CharacterSet(charactersIn: ":,")
-                    let coordinateParts = info.coordinates.components(separatedBy: separators)
-                    
-                    let latitude = (coordinateParts[1] as NSString).doubleValue
-                    let longitude  = (coordinateParts[3] as NSString).doubleValue
-                    
-                    let npCoordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                    
-                    saveToCoreData(parkName: info.fullName, mediaUrl: info.parkUrl, title: info.name, npCoordinates: npCoordinates)
-                    
-                    parkFilterByCoordinates.append(info)
-                    
-                    debugPrint("No Coordinates \(info.name), .... \(coordinates)")
-                    
-                }
-                
-            }
+        }
+        
+        LoadingViewActivity.hide()
         
         
     }
     
-    
+    //MARK SaveToCoreData
     func saveToCoreData(parkName: String, mediaUrl: String, title: String, npCoordinates:CLLocationCoordinate2D){
         
         do{
-            self.nationalPark = NationalPark(context: dataController.persistentContainer.viewContext)
-            nationalPark.latitude  = npCoordinates.latitude
-            nationalPark.longitude  = npCoordinates.longitude
-            nationalPark.parks = parkName
-            nationalPark.medialUrl = mediaUrl
-            nationalPark.title = title
-            nationalPark.stateAbbrName = self.abbrName
             
-            debugPrint("ParkViewController \(String(describing: nationalPark.parks))")
-            
+            let natPark = NationalPark(context: dataController.viewContext)
+            natPark.latitude = npCoordinates.latitude
+            natPark.longitude = npCoordinates.longitude
+            natPark.parks = parkName
+            natPark.medialUrl = mediaUrl
+            natPark.title = title
+            natPark.stateAbbrName = self.abbrName
+            stateUS.addToNationalParks(natPark)
+        
+        
+          
             //MARK: When pins are dropped on the map, the pins are persisted as Pin instances in Core Data and the context is saved.
             try dataController.persistentContainer.viewContext.save()
-            parks.append(nationalPark)
-            debugPrint("Saving NationalPark to Core data")
+            parks.append(natPark)
+            
+            
+            addParkPin(coordinates: CLLocationCoordinate2D(latitude: natPark.latitude, longitude: natPark.longitude), title: natPark.title!, subtitle: natPark.medialUrl!)
+            
+            tableView.reloadData()
+         
+//            tableView.reloadData()
+            debugPrint("ParkViewController: Saving NationalPark to Core data : \(String(describing: natPark.parks))")
         }
         catch let error
         {
             debugPrint(error)
         }
         
+        
     }
-    
-    
     
 }

@@ -27,13 +27,18 @@ var flagModel = [FlagsModel]()
     
 var parkFilterByCoordinates: [Parks] = [Parks]()
     
-var fetchedResultsController : NSFetchedResultsController<NationalPark>!
+var fetchResultsController : NSFetchedResultsController<NationalPark>!
 
 var nationalParks : [NationalPark] = []
     
 var nationalPark : NationalPark!
     
-  
+var existingState: Bool!
+    
+var abbrName: String?
+    
+var stateUS: State!
+
 
 //lets set up dependencty injections
     
@@ -49,6 +54,8 @@ override func viewDidLoad() {
     super.viewDidLoad()
     
     // Do any additional setup after loading the view.
+    //MARK CORE DATA RELATIONSHIP
+    self.stateUS = State(context: dataController.viewContext)
 }
 
     
@@ -66,7 +73,7 @@ override func viewDidLoad() {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        fetchedResultsController = nil
+        fetchResultsController = nil
     }
     
 
@@ -80,7 +87,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
     // Configure the cell
     let usFlags = self.flagModel[(indexPath as NSIndexPath).row]
     
-//    sfCell.photoImage?.image = UIImage(named: flags.flagImage)
+ 
     if let imageURL = usFlags.flagImage as? String {
         if imageURL.hasPrefix("gs://") {
             Storage.storage().reference(forURL: imageURL).getData(maxSize: INT64_MAX) {(data, error) in
@@ -113,15 +120,19 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
         let flags = self.flagModel[(indexPath as NSIndexPath).row]
         debugPrint("ParkViewController: Selected Item \(flags.fullName)")
 
+        self.abbrName = flags.abbrName
         
-//        reloadMapView(abbrName: flags.abbrName)
         
-        parkDetailViewController.abbrName = flags.abbrName
+        //MARK CHECK TO SEE IF STATE EXISTS
+        self.checkForExistingState(abbrName: flags.abbrName)
+        
+        
+        parkDetailViewController.parkDoesNotExist = self.existingState
+        
+        parkDetailViewController.abbrName = self.abbrName
         self.navigationController!.pushViewController(parkDetailViewController, animated: true)
         
     }
-  
-
 
 }
 
@@ -171,4 +182,60 @@ extension ParkViewController {
     }
     
    
+}
+
+
+//MARK CHECK FOR EXISTING STATE
+extension ParkViewController {
+    
+    fileprivate func checkForExistingState(abbrName: String) {
+        //MARK CHECK TO SEE IF IT EXIST IN CORE DATA
+        //MARK SAVE TO CORE DATA
+        
+        let fetchRequest:NSFetchRequest<NationalPark> = NationalPark.fetchRequest()
+        
+        
+        let predicate = NSPredicate(format: "stateAbbrName == %@", abbrName)
+        
+        fetchRequest.predicate = predicate
+        
+        fetchRequest.fetchLimit = 1
+
+        let sortDescriptor = NSSortDescriptor(key: "stateAbbrName", ascending: false)
+        
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+
+        fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+
+        
+        do {
+            try fetchResultsController.performFetch()
+        } catch  let error {
+            debugPrint("DetatilViewController: catchStatement \(error.localizedDescription)")
+            fatalError(error.localizedDescription)
+        }
+        
+        
+        do {
+            
+            let totalCount = try fetchResultsController.managedObjectContext.count(for: fetchRequest)
+            
+            if totalCount > 0 {
+                print("total count \(totalCount)")
+                debugPrint("Existing State is true")
+                self.existingState = true
+            } else {
+                debugPrint("Existing State is false")
+                existingState = false
+                self.existingState = false
+            }
+            
+        } catch let error {
+            print("setupFetchedResultsControllerAndGetPhotos: \(error.localizedDescription)")
+        }
+    }
+    
+
 }

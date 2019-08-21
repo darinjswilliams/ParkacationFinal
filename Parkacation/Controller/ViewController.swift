@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseStorage
+import CoreData
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -19,7 +20,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var storageRef: StorageReference!
     var flagModel = [FlagsModel]()
     
-    var dcntrl: DataController! {
+    var existingState: Bool!
+    
+    var fetchResultsController : NSFetchedResultsController<NationalPark>!
+    
+    var dataController: DataController! {
         var object = UIApplication.shared.delegate
         var appDelegate = object as! AppDelegate
         return appDelegate.dataController
@@ -70,7 +75,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     let flgItem =  FlagsModel(snapshot: snapshot){
                     dataModel.append(flgItem)
                 }
-               debugPrint("datamodel count.. \(dataModel.count)")
+
                 
              }
             
@@ -131,6 +136,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
            let flags = self.flagModel[(indexPath as NSIndexPath).row]
         
          debugPrint("ViewController: Selected Item \(flags.fullName)")
+        //MARK CHECK TO SEE IF STATE EXISTS
+        self.checkForExistingState(abbrName: flags.abbrName)
+        
+        
+        parkDetailViewController.parkDoesNotExist = self.existingState
         
         parkDetailViewController.abbrName = flags.abbrName
         self.navigationController!.pushViewController(parkDetailViewController, animated: true)
@@ -138,5 +148,59 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
 
+}
+
+extension ViewController {
+    
+    
+    fileprivate func checkForExistingState(abbrName: String) {
+        //MARK CHECK TO SEE IF IT EXIST IN CORE DATA
+        //MARK SAVE TO CORE DATA
+        
+        let fetchRequest:NSFetchRequest<NationalPark> = NationalPark.fetchRequest()
+        
+        
+        let predicate = NSPredicate(format: "stateAbbrName == %@", abbrName)
+        
+        fetchRequest.predicate = predicate
+        
+        fetchRequest.fetchLimit = 1
+        
+        let sortDescriptor = NSSortDescriptor(key: "stateAbbrName", ascending: false)
+        
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        
+        fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        
+        
+        do {
+            try fetchResultsController.performFetch()
+        } catch  let error {
+            debugPrint("DetatilViewController: catchStatement \(error.localizedDescription)")
+            fatalError(error.localizedDescription)
+        }
+        
+        
+        do {
+            
+            let totalCount = try fetchResultsController.managedObjectContext.count(for: fetchRequest)
+            
+            if totalCount > 0 {
+                print("total count \(totalCount)")
+                debugPrint("Existing State is true")
+                self.existingState = true
+            } else {
+                debugPrint("Existing State is false")
+                existingState = false
+                self.existingState = false
+            }
+            
+        } catch let error {
+            print("setupFetchedResultsControllerAndGetPhotos: \(error.localizedDescription)")
+        }
+    }
+    
 }
 

@@ -23,6 +23,7 @@
 
 import Foundation
 
+
 struct NationalParks: Codable {
     let data: [Parks]
 }
@@ -64,5 +65,10 @@ struct Geometry: Codable {
         case lat = "lat"
         case lng = "lng"
     }
+}
+
+struct ParkServiceModel {
+    var fullName, mediaUrl, parkUrl, name: String
+    var latitude, longitude: Double
 }
 

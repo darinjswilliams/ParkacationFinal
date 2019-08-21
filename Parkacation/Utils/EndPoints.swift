@@ -22,7 +22,7 @@ enum EndPoints {
     var stringValue: String {
         switch self {
             
-        case .getParks(let stateAbbrName): return EndPoints.parkBaseService.stringValue + "/parks?stateCode=\(stateAbbrName)"
+        case .getParks(let stateAbbrName): return EndPoints.parkBaseService.stringValue + "parks?stateCode=\(stateAbbrName)"
             
         case .apiKeyNationalParkService: return AuthenticationUtils.parkApiKey
             
