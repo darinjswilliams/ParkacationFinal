@@ -51,8 +51,8 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
     
     var fetchedResultsController : NSFetchedResultsController<NationalPark>!
     
-    
-   var fetchResultsController : NSFetchedResultsController<State>!
+//
+//   var fetchResultsController : NSFetchedResultsController<State>!
     
     var nationalParks : [NationalPark] = []
     
@@ -86,7 +86,6 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
 
         // Do any additional setup after loading the view.
         
-        
         //MARK CORE DATA RELATIONSHIP
       self.stateUS = State(context: dataController.viewContext)
         
@@ -95,11 +94,12 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
         debugPrint("ParkDetailViewController: Here is the StateName \(String(describing: abbrName))")
         
         //Load coordinates data to Map of National Park
-        LoadingViewActivity.show(mapView, loadingText: "Loading")
+       
 
 
         if parkDoesNotExist! {
-
+           
+            
             // CLEAR PINS FROM MAP
             debugPrint("IT IS \(String(describing: parkDoesNotExist))")
             //MARK CALL COREDATA
@@ -112,7 +112,7 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
             
         } else {
 
-
+      
             //CALL API
             debugPrint("IT IS \(String(describing: parkDoesNotExist))")
               debugPrint("State dones not exists so call API")
@@ -128,22 +128,28 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
         
         
         
-        LoadingViewActivity.hide()
+      
 
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+         LoadingViewActivity.show(mapView, loadingText: "Loading")
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+      
+        LoadingViewActivity.hide()
     }
     
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        fetchedResultsController = nil
+//        fetchedResultsController = nil
     }
     
 
@@ -201,6 +207,8 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
         //Send Park Name
         parkDirectionsController.parkName = parkLocation.parks
         
+        parkDirectionsController.stateFlag = self.abbrName!
+        
         self.navigationController?.pushViewController(parkDirectionsController, animated: true)
         
     }
@@ -245,6 +253,9 @@ extension ParkDetailViewController: NSFetchedResultsControllerDelegate  {
  
     //MARK SETUP FetchResult Contoller
     @discardableResult func setUpFetchResultController() -> [NationalPark]? {
+        
+        
+      
         
         let fetchRequest : NSFetchRequest<NationalPark> = NationalPark.fetchRequest()
         
@@ -436,7 +447,6 @@ extension ParkDetailViewController {
         //MARK SAVE STATE TO CORE DATA
         stateUS.abbrName = self.abbrName
         
-        LoadingViewActivity.show(tableView, loadingText: "Loading")
         
         for info in parkInfo {
             

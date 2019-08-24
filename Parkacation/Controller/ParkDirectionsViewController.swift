@@ -25,9 +25,11 @@ class ParkDirectionsViewController: UIViewController, MKMapViewDelegate {
     
     var parkName: String?
     
+    var stateFlag: String?
+    
     var coordinates2D:CLLocationCoordinate2D?
     
-    private let locationManager = CLLocationManager()
+    var locationManager: CLLocationManager!
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -37,10 +39,11 @@ class ParkDirectionsViewController: UIViewController, MKMapViewDelegate {
     
     var etaTotalTime: Double!
     
+    @IBOutlet weak var parksLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+         LoadingViewActivity.show(mapView, loadingText: "Calculating Fastest Route")
         
         
         // Do any additional setup after loading the view.
@@ -48,7 +51,9 @@ class ParkDirectionsViewController: UIViewController, MKMapViewDelegate {
       
         
         //Ask User for Permission to get current location
+        self.locationManager = CLLocationManager()
         self.locationManager.requestWhenInUseAuthorization()
+        
         
         //Generate Popup for user
         if CLLocationManager.locationServicesEnabled() {
@@ -59,13 +64,20 @@ class ParkDirectionsViewController: UIViewController, MKMapViewDelegate {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        LoadingViewActivity.hide()
+        self.mapView.showsUserLocation = true
+        self.mapView.userTrackingMode = .follow
+    }
     
     
     // MARK DISPLAY USERS CURRENT LOCATION ON MAP
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
        
   
-       
+    
         // GET USER CURRENT LOCATION
         let locVal:CLLocationCoordinate2D = manager.location!.coordinate
         
@@ -75,15 +87,18 @@ class ParkDirectionsViewController: UIViewController, MKMapViewDelegate {
         
         self.coordinates2D = locVal
         
+        //MARK CHECK TO SEE IF STATE IS HAWAII
+        if((self.stateFlag?.lowercased().contains("hi"))!){
+            self.parksLabel.text = "No Driving Route Available, Call Travel Agent"
+            } else {
         self.createRouteOnMap(sourceInfo: self.parkLocation!, destinationInfo: locVal)
-        self.createMapAnnotation(directionsInfo: self.parkLocation!, directionsName: self.parkName!)
-        self.createMapAnnotation(directionsInfo: locVal, directionsName: userName)
+            }
+//        self.createMapAnnotation(directionsInfo: self.parkLocation!, directionsName: self.parkName!)
+//        self.createMapAnnotation(directionsInfo: locVal, directionsName: userName)
         
         //Stop fetching users location
         locationManager.stopUpdatingHeading()
-        
-        LoadingViewActivity.hide()
-        
+
     }
 
 }
@@ -112,7 +127,7 @@ extension ParkDirectionsViewController {
     
     func createRouteOnMap(sourceInfo:CLLocationCoordinate2D, destinationInfo: CLLocationCoordinate2D){
         
-    LoadingViewActivity.show(mapView, loadingText: "Calculating Fastest Route")
+      
         
         let  sourcePlaceMark  = MKPlacemark(coordinate: sourceInfo)
         let destinationPlaceMark  = MKPlacemark(coordinate: destinationInfo)
@@ -120,7 +135,10 @@ extension ParkDirectionsViewController {
         
         directionRequest.source = MKMapItem(placemark: sourcePlaceMark)
         directionRequest.destination = MKMapItem(placemark: destinationPlaceMark)
+      
+        let parkPoint = ParkAnnotation(coordinate: sourceInfo)
         
+            parkPoint.title = self.parkName!
         
         //MARK type of transportation
         directionRequest.transportType = .automobile
@@ -148,6 +166,7 @@ extension ParkDirectionsViewController {
             //MARK ROUND Distance
             self.totalDistance = round(distance/AuthenticationUtils.convertMetersToMiles)
             debugPrint("Round total distance .. \(String(describing: self.totalDistance))")
+            parkPoint.mile = "\(String(describing: self.totalDistance)).. miles"
             
             
             //GET ETA and convert seconds to Hours
@@ -156,6 +175,7 @@ extension ParkDirectionsViewController {
             
             self.etaTotalTime = (eta/AuthenticationUtils.convertSecondsToHours)
             debugPrint("Round total time .. \(String(describing: self.etaTotalTime))")
+            parkPoint.eta = "\(self.etaTotalTime) .. min"
             
             
             self.mapView.addOverlay(route.polyline, level: .aboveRoads)
@@ -166,7 +186,9 @@ extension ParkDirectionsViewController {
             self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
         }
         
+   
         
+        self.mapView.addAnnotation(parkPoint)
         self.mapView.delegate = self
         
     }
@@ -182,34 +204,81 @@ extension ParkDirectionsViewController {
     }
     
     
-    // each pin's rendering
+//    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+//        let placemark = MKPlacemark(coordinate: view.annotation!.coordinate, addressDictionary: nil)
+//        // The map item is the restaurant location
+//        let mapItem = MKMapItem(placemark: placemark)
+//
+//        let launchOptions = [MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeTransit]
+//        mapItem.openInMaps(launchOptions: launchOptions)
+//    }
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        let annotationId = "pin"
-        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationId) as? MKPinAnnotationView
+            // If annotation is not of type RestaurantAnnotation (MKUserLocation types for instance), return nil
+            if !(annotation is ParkAnnotation){
+                return nil
+            }
+            
+            var annotationView = self.mapView.dequeueReusableAnnotationView(withIdentifier: "Pin")
+            
+            if annotationView == nil{
+                annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "Pin")
+                annotationView?.canShowCallout = true
+            }else{
+                annotationView?.annotation = annotation
+            }
+            
+            let parkAnnotation = annotation as! ParkAnnotation
+            annotationView?.detailCalloutAccessoryView = UIImageView(image: parkAnnotation.image)
         
-        if pinView == nil {
-            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationId)
-            pinView?.canShowCallout = true
-            pinView?.pinTintColor = .red
-            pinView?.rightCalloutAccessoryView = UIButton(type:.detailDisclosure)
-        } else {
-            pinView?.annotation = annotation
-        }
-        return pinView
+        
+        
+            // Left Accessory
+//            let leftAccessory = UILabel(frame: CGRect(x: 0,y: 0,width: 30,height: 30))
+//            leftAccessory.text = parkAnnotation.eta
+//            leftAccessory.font = UIFont(name: "Verdana", size: 20)
+//            annotationView?.leftCalloutAccessoryView = leftAccessory
+        
+            
+            // Right accessory view
+           let image = UIImage(named:  (self.stateFlag?.lowercased())!)
+            let button = UIButton(type: .custom)
+            button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            button.setImage(image, for: UIControl.State())
+            annotationView?.rightCalloutAccessoryView = button
+        
+  
+            return annotationView
     }
     
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        if (control == view.rightCalloutAccessoryView) {
-            let app = UIApplication.shared
-            if let url = view.annotation?.subtitle! {
-                guard !url.isEmpty else {
-                    showInfo(withMessage: "No Valid URl")
-                    return
-                }
-                app.open(URL(string: url)!, options: [:], completionHandler: nil)
-            }
-        }
-    }
+    // each pin's rendering
+//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//        let annotationId = "pin"
+//        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationId) as? MKPinAnnotationView
+//
+//        if pinView == nil {
+//            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationId)
+//            pinView?.canShowCallout = true
+//            pinView?.pinTintColor = .red
+//            pinView?.rightCalloutAccessoryView = UIButton(type:.detailDisclosure)
+//        } else {
+//            pinView?.annotation = annotation
+//        }
+//        return pinView
+//    }
+//
+//    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+//        if (control == view.rightCalloutAccessoryView) {
+//            let app = UIApplication.shared
+//            if let url = view.annotation?.subtitle! {
+//                guard !url.isEmpty else {
+//                    showInfo(withMessage: "No Valid URl")
+//                    return
+//                }
+//                app.open(URL(string: url)!, options: [:], completionHandler: nil)
+//            }
+//        }
+//    }
 }
 
 extension ParkDirectionsViewController: CLLocationManagerDelegate {

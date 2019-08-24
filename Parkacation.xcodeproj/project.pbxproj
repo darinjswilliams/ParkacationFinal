@@ -25,6 +25,8 @@
 		C8223ACD22F368C00032CF1B /* AllStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8223ACC22F368C00032CF1B /* AllStates.swift */; };
 		C8223ACF22F36C820032CF1B /* DatabaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8223ACE22F36C820032CF1B /* DatabaseConfig.swift */; };
 		C825754E23010720008359C3 /* FlagsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C825754D23010720008359C3 /* FlagsModel.swift */; };
+		C873D8F9230E3B7700C348F6 /* ParkAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D8F8230E3B7700C348F6 /* ParkAnnotation.swift */; };
+		C873D8FB2311083C00C348F6 /* ImagesServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D8FA2311083C00C348F6 /* ImagesServices.swift */; };
 		C8B3679122FFDAB5006DFA34 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8B3679022FFDAB5006DFA34 /* MapKit.framework */; };
 		C8E1A27A22F745AD009EE885 /* ParkDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E1A27922F745AD009EE885 /* ParkDetailViewController.swift */; };
 		C8E1A27C22F76B5E009EE885 /* NationalParksModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E1A27B22F76B5E009EE885 /* NationalParksModel.swift */; };
@@ -75,6 +77,8 @@
 		C8223ACE22F36C820032CF1B /* DatabaseConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseConfig.swift; sourceTree = "<group>"; };
 		C825754D23010720008359C3 /* FlagsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagsModel.swift; sourceTree = "<group>"; };
 		C873D8F52307B8E000C348F6 /* Parkacation 2-mediaURl-title.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Parkacation 2-mediaURl-title.xcdatamodel"; sourceTree = "<group>"; };
+		C873D8F8230E3B7700C348F6 /* ParkAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkAnnotation.swift; sourceTree = "<group>"; };
+		C873D8FA2311083C00C348F6 /* ImagesServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesServices.swift; sourceTree = "<group>"; };
 		C8B3679022FFDAB5006DFA34 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		C8E1A27922F745AD009EE885 /* ParkDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkDetailViewController.swift; sourceTree = "<group>"; };
 		C8E1A27B22F76B5E009EE885 /* NationalParksModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NationalParksModel.swift; sourceTree = "<group>"; };
@@ -176,6 +180,7 @@
 				C8E1A27B22F76B5E009EE885 /* NationalParksModel.swift */,
 				C8223A9222ED78510032CF1B /* Parkacation.xcdatamodeld */,
 				C825754D23010720008359C3 /* FlagsModel.swift */,
+				C873D8F8230E3B7700C348F6 /* ParkAnnotation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -223,6 +228,7 @@
 				C8223ACC22F368C00032CF1B /* AllStates.swift */,
 				C8E1A28122F78AA5009EE885 /* EndPoints.swift */,
 				C8F5507222FE0F0B003BB134 /* LoadingViewActivity.swift */,
+				C873D8FA2311083C00C348F6 /* ImagesServices.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -463,6 +469,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C873D8F9230E3B7700C348F6 /* ParkAnnotation.swift in Sources */,
 				C8E1A27C22F76B5E009EE885 /* NationalParksModel.swift in Sources */,
 				C8E1A28222F78AA5009EE885 /* EndPoints.swift in Sources */,
 				C8223ACF22F36C820032CF1B /* DatabaseConfig.swift in Sources */,
@@ -470,6 +477,7 @@
 				C8E1A28022F783E3009EE885 /* ParkApi.swift in Sources */,
 				C8223A8E22ED78510032CF1B /* ViewController.swift in Sources */,
 				C8223A8C22ED78510032CF1B /* AppDelegate.swift in Sources */,
+				C873D8FB2311083C00C348F6 /* ImagesServices.swift in Sources */,
 				C8223AB722EE52EE0032CF1B /* StateFlagCollectionViewCell.swift in Sources */,
 				C8223AC922F1A8FF0032CF1B /* ParkViewController.swift in Sources */,
 				C8E1A27E22F7756D009EE885 /* ParkDetailViewControllerExtension.swift in Sources */,

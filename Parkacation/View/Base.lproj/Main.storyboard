@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LIi-r2-Dgl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LIi-r2-Dgl">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -236,7 +236,7 @@
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1632.8" y="206.44677661169416"/>
+            <point key="canvasLocation" x="1402" y="200"/>
         </scene>
         <!--Park Directions View Controller-->
         <scene sceneID="DMr-aa-tMp">
@@ -252,11 +252,20 @@
                                     <outlet property="delegate" destination="35g-rr-E0h" id="0gq-KL-4KK"/>
                                 </connections>
                             </mapView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aUS-0s-AoR">
+                                <rect key="frame" x="25" y="134" width="325" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="BMM-rk-2No" firstAttribute="trailing" secondItem="RXq-ce-m1a" secondAttribute="trailing" id="Dk8-oA-kfP"/>
                             <constraint firstItem="BMM-rk-2No" firstAttribute="leading" secondItem="RXq-ce-m1a" secondAttribute="leading" id="MpH-CP-N4C"/>
+                            <constraint firstItem="RXq-ce-m1a" firstAttribute="trailing" secondItem="aUS-0s-AoR" secondAttribute="trailing" constant="25" id="NWV-A0-1Y6"/>
+                            <constraint firstItem="aUS-0s-AoR" firstAttribute="leading" secondItem="RXq-ce-m1a" secondAttribute="leading" constant="25" id="Sa5-Us-MgJ"/>
+                            <constraint firstItem="aUS-0s-AoR" firstAttribute="top" secondItem="RXq-ce-m1a" secondAttribute="top" constant="114" id="YdH-Ry-6Em"/>
                             <constraint firstItem="BMM-rk-2No" firstAttribute="top" secondItem="RXq-ce-m1a" secondAttribute="top" id="mtJ-7O-o9b"/>
                             <constraint firstItem="RXq-ce-m1a" firstAttribute="bottom" secondItem="BMM-rk-2No" secondAttribute="bottom" id="uDm-2g-8kb"/>
                         </constraints>
@@ -264,11 +273,12 @@
                     </view>
                     <connections>
                         <outlet property="mapView" destination="BMM-rk-2No" id="Zx8-pa-Xuf"/>
+                        <outlet property="parksLabel" destination="aUS-0s-AoR" id="mvf-Jw-ZJx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jnT-kf-8Ba" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2412" y="215"/>
+            <point key="canvasLocation" x="2182" y="199"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="xrn-k4-jRX">
