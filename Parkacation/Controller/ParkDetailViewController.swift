@@ -45,9 +45,7 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
         return appDelegate.dataController
     }
     
-    
-    //FETCH CONROLLER
-    var genericfetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>!
+
     
     var fetchedResultsController : NSFetchedResultsController<NationalPark>!
     
@@ -111,8 +109,7 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
         
             
         } else {
-
-      
+   
             //CALL API
             debugPrint("IT IS \(String(describing: parkDoesNotExist))")
               debugPrint("State dones not exists so call API")
@@ -125,14 +122,11 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
 //            reloadMapAnnotations()
 
         }
-        
-        
-        
-      
-
-        
+   
     }
     
+    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
          LoadingViewActivity.show(mapView, loadingText: "Loading")
@@ -141,8 +135,8 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-      
-        LoadingViewActivity.hide()
+         LoadingViewActivity.hide()
+       
     }
     
     
@@ -152,7 +146,39 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
 //        fetchedResultsController = nil
     }
     
+    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+       debugPrint("Make me favorite park")
+        
+        //UPDATE COREDATA VISIT FOR
+          let favoritePark = NationalPark(context: dataController.viewContext)
+       
+          let coreDataInformation = fetchedResultsController.object(at: indexPath)
+        
 
+          favoritePark.visit = "Favorite"
+          favoritePark.latitude = coreDataInformation.latitude
+          favoritePark.longitude = coreDataInformation.longitude
+          favoritePark.medialUrl = coreDataInformation.medialUrl
+          favoritePark.stateAbbrName = coreDataInformation.stateAbbrName
+          favoritePark.title = coreDataInformation.title
+          favoritePark.state = coreDataInformation.state
+          favoritePark.parks = coreDataInformation.parks
+        
+         dataController.persistentContainer.viewContext.delete(coreDataInformation)
+        
+        
+        do {
+            try dataController.persistentContainer.viewContext.save()
+             debugPrint("Saved favorite park")
+        } catch let error {
+            debugPrint("Error saving Favorite Park")
+        }
+        
+        
+        
+        
+        
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
@@ -254,9 +280,7 @@ extension ParkDetailViewController: NSFetchedResultsControllerDelegate  {
     //MARK SETUP FetchResult Contoller
     @discardableResult func setUpFetchResultController() -> [NationalPark]? {
         
-        
-      
-        
+   
         let fetchRequest : NSFetchRequest<NationalPark> = NationalPark.fetchRequest()
         
         let predicate = NSPredicate(format: "stateAbbrName == %@", self.abbrName!)
@@ -472,7 +496,7 @@ extension ParkDetailViewController {
             
         }
         
-        LoadingViewActivity.hide()
+       
         
         
     }

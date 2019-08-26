@@ -12,19 +12,46 @@ import Firebase
 
 class DatabaseConfig {
     
-    var ref: DatabaseReference!
+    var dbRef: DatabaseReference!
     var storageRef: StorageReference!
+    var dataModel:[FlagsModel] = []
     
     
-    func configureDatabase() {
-          ref = Database.database().reference()
+    fileprivate func configureDatabase() -> DatabaseReference {
+          return Database.database().reference()
     }
     
     
-    func configureStorage(){
+    fileprivate func configureStorage(){
          storageRef = Storage.storage().reference()
         
     }
     
+    //Mark From Firebase
+    func loadFromDatabase() -> [FlagsModel]{
+    
+        dbRef = configureDatabase()
+     
+        dbRef.observe(.value, with: {snapshot in
+            
+            //MARK Iterate over items FROM DATABASE
+           
+            for item in snapshot.children {
+                
+                if let snapshot = item as? DataSnapshot,
+                    let flagModel =  FlagsModel(snapshot: snapshot){
+                    self.dataModel.append(flagModel)
+                }
+                debugPrint("LOADFROM DATABASE: datamodel count.. \(self.dataModel.count)")
+                
+            }
+     
+        })
+    
+        //MARK LOAD DATA INTO ARRAY AND RELOAD TABLE
+        return dataModel
+        
+        LoadingViewActivity.hide()
+    }
     
 }

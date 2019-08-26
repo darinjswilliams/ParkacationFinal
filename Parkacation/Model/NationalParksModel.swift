@@ -68,7 +68,7 @@ struct Geometry: Codable {
 }
 
 struct ParkServiceModel {
-    var fullName, mediaUrl, parkUrl, name: String
+    var fullName, mediaUrl, parkUrl, name, visit: String
     var latitude, longitude: Double
 }
 

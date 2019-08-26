@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import MapKit
 import CoreData
+import Kingfisher
 
 class ParkViewController: UIViewController,  UICollectionViewDelegate, UICollectionViewDataSource, NSFetchedResultsControllerDelegate
 {
@@ -95,7 +96,12 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
                     print("Error downloading: \(error)")
                     return
                 }
+                
+//                let url = URL(string: "https://example.com/image.jpg")
+//                imageView.kf.setImage(with: url)
+                
                 DispatchQueue.main.async {
+                    //USE KINGFISHER
                     sfCell.photoImage.image = UIImage.init(data: data!)
                     sfCell.setNeedsLayout()
                 }
@@ -150,7 +156,6 @@ extension ParkViewController {
     
     fileprivate func configureStorage() {
         storageRef = Storage.storage().reference()
-        let myStorage = storageRef.child("us_flags")
         
     }
     

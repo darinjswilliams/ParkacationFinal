@@ -26,7 +26,7 @@
 		C8223ACF22F36C820032CF1B /* DatabaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8223ACE22F36C820032CF1B /* DatabaseConfig.swift */; };
 		C825754E23010720008359C3 /* FlagsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C825754D23010720008359C3 /* FlagsModel.swift */; };
 		C873D8F9230E3B7700C348F6 /* ParkAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D8F8230E3B7700C348F6 /* ParkAnnotation.swift */; };
-		C873D8FB2311083C00C348F6 /* ImagesServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D8FA2311083C00C348F6 /* ImagesServices.swift */; };
+		C89B2F602312FE0B001BC7E5 /* FavoriteParksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89B2F5F2312FE0B001BC7E5 /* FavoriteParksViewController.swift */; };
 		C8B3679122FFDAB5006DFA34 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8B3679022FFDAB5006DFA34 /* MapKit.framework */; };
 		C8E1A27A22F745AD009EE885 /* ParkDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E1A27922F745AD009EE885 /* ParkDetailViewController.swift */; };
 		C8E1A27C22F76B5E009EE885 /* NationalParksModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E1A27B22F76B5E009EE885 /* NationalParksModel.swift */; };
@@ -78,7 +78,8 @@
 		C825754D23010720008359C3 /* FlagsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagsModel.swift; sourceTree = "<group>"; };
 		C873D8F52307B8E000C348F6 /* Parkacation 2-mediaURl-title.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Parkacation 2-mediaURl-title.xcdatamodel"; sourceTree = "<group>"; };
 		C873D8F8230E3B7700C348F6 /* ParkAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkAnnotation.swift; sourceTree = "<group>"; };
-		C873D8FA2311083C00C348F6 /* ImagesServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesServices.swift; sourceTree = "<group>"; };
+		C89B2F5E2311E8C2001BC7E5 /* Parkacation 2-visits.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Parkacation 2-visits.xcdatamodel"; sourceTree = "<group>"; };
+		C89B2F5F2312FE0B001BC7E5 /* FavoriteParksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteParksViewController.swift; sourceTree = "<group>"; };
 		C8B3679022FFDAB5006DFA34 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		C8E1A27922F745AD009EE885 /* ParkDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkDetailViewController.swift; sourceTree = "<group>"; };
 		C8E1A27B22F76B5E009EE885 /* NationalParksModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NationalParksModel.swift; sourceTree = "<group>"; };
@@ -205,6 +206,7 @@
 				C8223AC822F1A8FF0032CF1B /* ParkViewController.swift */,
 				C8E1A27922F745AD009EE885 /* ParkDetailViewController.swift */,
 				C8F5507422FE66AA003BB134 /* ParkDirectionsViewController.swift */,
+				C89B2F5F2312FE0B001BC7E5 /* FavoriteParksViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -228,7 +230,6 @@
 				C8223ACC22F368C00032CF1B /* AllStates.swift */,
 				C8E1A28122F78AA5009EE885 /* EndPoints.swift */,
 				C8F5507222FE0F0B003BB134 /* LoadingViewActivity.swift */,
-				C873D8FA2311083C00C348F6 /* ImagesServices.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -355,6 +356,7 @@
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
@@ -372,6 +374,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
@@ -477,12 +480,12 @@
 				C8E1A28022F783E3009EE885 /* ParkApi.swift in Sources */,
 				C8223A8E22ED78510032CF1B /* ViewController.swift in Sources */,
 				C8223A8C22ED78510032CF1B /* AppDelegate.swift in Sources */,
-				C873D8FB2311083C00C348F6 /* ImagesServices.swift in Sources */,
 				C8223AB722EE52EE0032CF1B /* StateFlagCollectionViewCell.swift in Sources */,
 				C8223AC922F1A8FF0032CF1B /* ParkViewController.swift in Sources */,
 				C8E1A27E22F7756D009EE885 /* ParkDetailViewControllerExtension.swift in Sources */,
 				C812C2ED2303BF9100DC07F0 /* DataController.swift in Sources */,
 				C8223A9422ED78510032CF1B /* Parkacation.xcdatamodeld in Sources */,
+				C89B2F602312FE0B001BC7E5 /* FavoriteParksViewController.swift in Sources */,
 				C8F5507322FE0F0B003BB134 /* LoadingViewActivity.swift in Sources */,
 				C8F5507522FE66AA003BB134 /* ParkDirectionsViewController.swift in Sources */,
 				C8E1A27A22F745AD009EE885 /* ParkDetailViewController.swift in Sources */,
@@ -767,10 +770,11 @@
 		C8223A9222ED78510032CF1B /* Parkacation.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				C89B2F5E2311E8C2001BC7E5 /* Parkacation 2-visits.xcdatamodel */,
 				C873D8F52307B8E000C348F6 /* Parkacation 2-mediaURl-title.xcdatamodel */,
 				C8223A9322ED78510032CF1B /* Parkacation.xcdatamodel */,
 			);
-			currentVersion = C873D8F52307B8E000C348F6 /* Parkacation 2-mediaURl-title.xcdatamodel */;
+			currentVersion = C89B2F5E2311E8C2001BC7E5 /* Parkacation 2-visits.xcdatamodel */;
 			path = Parkacation.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

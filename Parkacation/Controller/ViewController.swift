@@ -82,6 +82,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
              }
             
             //MARK LOAD DATA INTO ARRAY AND RELOAD TABLE
+            // NEED TO GET FROM CACHE
             self.flagModel = dataModel
             self.tableView.reloadData()
             
@@ -101,7 +102,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
        let cell = tableView.dequeueReusableCell(withIdentifier: "StateCell")
        let usFlags = self.flagModel[(indexPath as NSIndexPath).row]
         
-
+       //MARK NEED TO GET FROM CACHE
     
         if let imageURL = usFlags.flagImage as? String {
             if imageURL.hasPrefix("gs://") {
