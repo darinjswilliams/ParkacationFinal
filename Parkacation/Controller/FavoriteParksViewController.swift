@@ -88,12 +88,12 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
             // Mark no favorie park
             debugPrint("No Favoite Parks")
             
-            self.noParkLabel?.text = "No Favorite Park Marked"
-            
-            
-            return
-            
-            
+            guard favoriteParksFound != nil else {
+                showInfo(withMessage: "No Favorite Park Marked")
+                self.noParkLabel?.text = "No Favorite Park Marked"
+                return
+            }
+          
             
         } else {
             debugPrint("Favoite Parks Found")
@@ -140,10 +140,35 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        do {
+    
+            
+            let parkLocation = fetchedResultsController.object(at: indexPath)
+            
+            debugPrint("Update Core DAta Visit for \(String(describing: parkLocation.parks))")
+           
+            parkLocation.setValue(nil, forKey: "visit")
+            
+            try dataController.persistentContainer.viewContext.save()
+            
+      
+            self.parks.removeAll()
+            
+            checkForFavoriteParks()
+            
+            removeAllAnnotations()
+            
+            reloadMapAnnotations()
+            
+             self.tableView.reloadData()
+            
+//             self.mapView.reloadInputViews()
+            
+            
+        } catch let error {
+            debugPrint("FavoriteParkController: \(error.localizedDescription)")
+        }
         
-          let parkLocation = fetchedResultsController.object(at: indexPath)
-        
-        debugPrint("Update Core DAta Visit for \(String(describing: parkLocation.parks))")
     }
     
 
@@ -230,20 +255,29 @@ extension FavoriteParksViewController: NSFetchedResultsControllerDelegate {
     
     
     fileprivate func reloadMapAnnotations() {
-        if !self.parks.isEmpty{
+//        if !self.parks.isEmpty{
             for park in parks {
                 
                 //MARK ADD COORDINATES TO CORE DATA
-                debugPrint("ParksDetailView: ViewDidLoad: Parks are not empty")
+                debugPrint("ParksDetailView: ViewDidLoad: Parks are not empty \(park.latitude)")
                 addParkPin(coordinates: CLLocationCoordinate2D(latitude: park.latitude, longitude: park.longitude), title: park.title!, subtitle: park.medialUrl! )
                 
             }
             
-        } else {
-            
-            debugPrint("Parks are empty")
-            
+//        } else {
+//
+//            debugPrint("Parks are empty")
+//
+//        }
+    }
+    
+    
+    func removeAllAnnotations() {
+    DispatchQueue.main.async {
+        for annotation in self.mapView.annotations {
+            self.mapView.removeAnnotation(annotation)
         }
+      }
     }
     
     
@@ -252,42 +286,44 @@ extension FavoriteParksViewController: NSFetchedResultsControllerDelegate {
         annotation.title = title
         annotation.subtitle = subtitle
         annotation.coordinate = coordinates
+       
         mapView.addAnnotation(annotation)
         mapAnnotations.append(annotation)
         mapView.showAnnotations(mapAnnotations, animated: true)
+         
     }
     
     
-    // each pin's rendering
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        let annotationId = "pin"
-        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationId) as? MKPinAnnotationView
-
-//            pinView?.addGestureRecognizer(doubleTabRecognizer)
-
-        if pinView == nil {
-            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationId)
-            pinView?.canShowCallout = true
-            pinView?.pinTintColor = .blue
-            pinView?.rightCalloutAccessoryView = UIButton(type:.detailDisclosure)
-        } else {
-            pinView?.annotation = annotation
-        }
-        return pinView
-    }
-
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        if (control == view.rightCalloutAccessoryView) {
-            let app = UIApplication.shared
-            if let url = view.annotation?.subtitle! {
-                guard !url.isEmpty else {
-                    showInfo(withMessage: "No Valid URl")
-                    return
-                }
-                app.open(URL(string: url)!, options: [:], completionHandler: nil)
-            }
-        }
-    }
+//    // each pin's rendering
+//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//        let annotationId = "pin"
+//        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationId) as? MKPinAnnotationView
+//
+////            pinView?.addGestureRecognizer(doubleTabRecognizer)
+//
+//        if pinView == nil {
+//            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationId)
+//            pinView?.canShowCallout = true
+//            pinView?.pinTintColor = .blue
+//            pinView?.rightCalloutAccessoryView = UIButton(type:.detailDisclosure)
+//        } else {
+//            pinView?.annotation = annotation
+//        }
+//        return pinView
+//    }
+//
+//    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+//        if (control == view.rightCalloutAccessoryView) {
+//            let app = UIApplication.shared
+//            if let url = view.annotation?.subtitle! {
+//                guard !url.isEmpty else {
+//                    showInfo(withMessage: "No Valid URl")
+//                    return
+//                }
+//                app.open(URL(string: url)!, options: [:], completionHandler: nil)
+//            }
+//        }
+//    }
     
 }
 

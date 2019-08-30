@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import Firebase
+import FBSDKCoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,6 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         dataController.load()
         
+        
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        
         guard let navigationController = window?.rootViewController as? UINavigationController,
             let parkDetailViewController = navigationController.viewControllers.first as? ParkDetailViewController else {
                 debugPrint("ParkViewController as root is nil")
@@ -33,6 +38,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        parkDetailViewController.dataController = dataController
 
         return true
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        
+        let handle = ApplicationDelegate.shared.application(app, open: url, sourceApplication: options [UIApplication.OpenURLOptionsKey.sourceApplication] as! String, annotation: [UIApplication.OpenURLOptionsKey.annotation])
+        
+        return handle;
+        
     }
 
     

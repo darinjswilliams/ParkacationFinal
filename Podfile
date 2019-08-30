@@ -17,6 +17,10 @@ target 'Parkacation' do
   pod 'Firebase/Core'
   pod 'Firebase/RemoteConfig'
   pod 'FirebaseUI'
+  pod 'Firebase/Auth'
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKShareKit'
+  pod 'FBSDKLoginKit'
   pod 'Kingfisher', '~> 4.10'
 
 end
