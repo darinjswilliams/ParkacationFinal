@@ -30,7 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         guard let navigationController = window?.rootViewController as? UINavigationController,
-            let parkDetailViewController = navigationController.viewControllers.first as? ParkDetailViewController else {
+            let parkViewController = navigationController.viewControllers.first as?
+                 ParkViewController else {
                 debugPrint("ParkViewController as root is nil")
                 return true
         }

@@ -158,6 +158,12 @@ extension ParkDirectionsViewController {
             
             //MARK define  fastest route, marking with zero indicates fastest
             let route = directionResposne.routes[0]
+
+            for step in route.steps {
+                
+                debugPrint(step.instructions)
+                
+            }
             
             // GET Distanceo on Route and convert to meters to miles  dividing by 1609.44
             let distance = route.distance

@@ -25,30 +25,31 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var fetchResultsController : NSFetchedResultsController<NationalPark>!
     
     var dataController: DataController! {
-        var object = UIApplication.shared.delegate
-        var appDelegate = object as! AppDelegate
+        let object = UIApplication.shared.delegate
+        let appDelegate = object as! AppDelegate
         return appDelegate.dataController
     }
     
-    
-    var imageReference: StorageReference {
-        return storageRef.child("us_flags")
-    }
+   //SETUP CACHE FOR IMAGES
+   let cache = NSCache<NSURL, UIImage>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-          LoadingViewActivity.show(tableView, loadingText: "Loading")
-
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
+        LoadingViewActivity.show(tableView, loadingText: "Loading")
         configureDatabase()
         configureStorage()
         loadFromDatabase()
+        
         LoadingViewActivity.hide()
     }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+
+    }
+    
     
     
     fileprivate func configureDatabase() {
@@ -60,32 +61,31 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     fileprivate func configureStorage() {
         storageRef = Storage.storage().reference()
-        let myStorage = storageRef.child("us_flags")
-        
     }
     
     //Mark From Firebase
+    //REFACTOR INTO CLASS
     func loadFromDatabase(){
         LoadingViewActivity.show(tableView, loadingText: "Loading")
         dbRef.observe(.value, with: {snapshot in
-            
+
             //MARK Iterate over items FROM DATABASE
             var dataModel:[FlagsModel] = []
             for item in snapshot.children {
-                
+
                 if let snapshot = item as? DataSnapshot,
                     let flgItem =  FlagsModel(snapshot: snapshot){
                     dataModel.append(flgItem)
                 }
 
-                
+
              }
-            
+
             //MARK LOAD DATA INTO ARRAY AND RELOAD TABLE
             // NEED TO GET FROM CACHE
             self.flagModel = dataModel
             self.tableView.reloadData()
-            
+
         })
         
         LoadingViewActivity.hide()

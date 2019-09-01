@@ -87,12 +87,11 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
             
             // Mark no favorie park
             debugPrint("No Favoite Parks")
+            self.noParkLabel?.text = "No Favorite Park Marked"
             
-            guard favoriteParksFound != nil else {
-                showInfo(withMessage: "No Favorite Park Marked")
-                self.noParkLabel?.text = "No Favorite Park Marked"
-                return
-            }
+       
+            showInfo(withMessage: "No Favorite Park Marked")
+              
           
             
         } else {
@@ -147,17 +146,29 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
             
             debugPrint("Update Core DAta Visit for \(String(describing: parkLocation.parks))")
            
+            
+            //MARK Remove Favorite Name assigin to park in CoreData
             parkLocation.setValue(nil, forKey: "visit")
             
             try dataController.persistentContainer.viewContext.save()
             
-      
+            
+            let lat = CLLocationDegrees(parkLocation.latitude)
+            let long = CLLocationDegrees(parkLocation.longitude)
+            
+            debugPrint("\(lat) and \(long)")
+            
+            
+            let coordinates = CLLocationCoordinate2D(latitude: lat, longitude: long)
+            
+//            removeSinglePark(coordinate: coordinates)
+
             self.parks.removeAll()
             
             checkForFavoriteParks()
             
             removeAllAnnotations()
-            
+
             reloadMapAnnotations()
             
              self.tableView.reloadData()
@@ -260,7 +271,17 @@ extension FavoriteParksViewController: NSFetchedResultsControllerDelegate {
                 
                 //MARK ADD COORDINATES TO CORE DATA
                 debugPrint("ParksDetailView: ViewDidLoad: Parks are not empty \(park.latitude)")
-                addParkPin(coordinates: CLLocationCoordinate2D(latitude: park.latitude, longitude: park.longitude), title: park.title!, subtitle: park.medialUrl! )
+                guard let title = park.title else {
+                    return
+                }
+                
+                
+                guard let media = park.medialUrl else {
+                    return
+                }
+                
+                
+                addParkPin(coordinates: CLLocationCoordinate2D(latitude: park.latitude, longitude: park.longitude), title: title, subtitle: media )
                 
             }
             
@@ -273,13 +294,26 @@ extension FavoriteParksViewController: NSFetchedResultsControllerDelegate {
     
     
     func removeAllAnnotations() {
-    DispatchQueue.main.async {
-        for annotation in self.mapView.annotations {
+        DispatchQueue.main.async{
+        for _annotation in self.mapView.annotations {
+            if let annotation = _annotation as? MKAnnotation
+            {
             self.mapView.removeAnnotation(annotation)
         }
       }
     }
+}
     
+    func removeSinglePark(coordinate: CLLocationCoordinate2D) {
+    
+        let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+        
+        self.mapView.removeAnnotation(annotation)
+        
+        
+        
+    }
     
     func addParkPin(coordinates: CLLocationCoordinate2D, title: String, subtitle: String) {
         let annotation = MKPointAnnotation()

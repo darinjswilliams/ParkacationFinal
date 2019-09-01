@@ -204,7 +204,7 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
         
 
         cell?.detailTextLabel?.text = coreDataInformation.parks
-        
+          
         
         //ASSIGN DESCRIPTION FROM PARK API TO DETAIL
         

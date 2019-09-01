@@ -56,18 +56,37 @@ override func viewDidLoad() {
     
     // Do any additional setup after loading the view.
     //MARK CORE DATA RELATIONSHIP
+    
+    navigationItem.title = "We're Logged in"
+    navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(handleSignOut))
+    
     self.stateUS = State(context: dataController.viewContext)
+    configureDatabase()
+    configureStorage()
+    loadFromDatabase()
 }
 
+    
+  fileprivate func userIsLoggedIn() -> Bool {
+        
+        return  UserDefaults.standard.bool(forKey: "userIsLoggedIn")
+    }
+    
+    
+    
+    @objc func handleSignOut(){
+        
+        UserDefaults.standard.set(false, forKey: "userIsLoggedIn")
+        UserDefaults.standard.synchronize()
+        
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         
         super.viewDidAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
         
-        configureDatabase()
-        configureStorage()
-        loadFromDatabase()
+
         
     }
     
@@ -96,10 +115,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
                     print("Error downloading: \(error)")
                     return
                 }
-                
-//                let url = URL(string: "https://example.com/image.jpg")
-//                imageView.kf.setImage(with: url)
-                
+         
                 DispatchQueue.main.async {
                     //USE KINGFISHER
                     sfCell.photoImage.image = UIImage.init(data: data!)
