@@ -51,6 +51,7 @@ var stateUS: State!
     
 
     
+    
 override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -61,9 +62,10 @@ override func viewDidLoad() {
     navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(handleSignOut))
     
     self.stateUS = State(context: dataController.viewContext)
-    configureDatabase()
-    configureStorage()
-    loadFromDatabase()
+    dbRef = DatabaseConfig.shared.configureDatabase()
+    storageRef =  DatabaseConfig.shared.configureStorage()
+ 
+    
 }
 
     
@@ -74,20 +76,30 @@ override func viewDidLoad() {
     
     
     
-    @objc func handleSignOut(){
-        
-        UserDefaults.standard.set(false, forKey: "userIsLoggedIn")
-        UserDefaults.standard.synchronize()
-        
-    }
+//    @objc func handleSignOut(){
+//
+//        UserDefaults.standard.set(false, forKey: "userIsLoggedIn")
+//        UserDefaults.standard.synchronize()
+//
+//        let mainStoryBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//
+//        let lgView  = mainStoryBoard.instantiateViewController(withIdentifier:"LoginViewController") as! LoginViewController
+//
+//
+//        present(lgView, animated: false, completion: nil)
+//    }
     
     override func viewDidAppear(_ animated: Bool) {
         
         super.viewDidAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
         
-
+      
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        loadFromDatabase()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -163,42 +175,42 @@ extension ParkViewController {
     
  
 
-    fileprivate func configureDatabase() {
-        //MARK CALL FLAG API
-        // Do any additional setup after loading the view.
-        dbRef = Database.database().reference(withPath: "data")
-        
-    }
-    
-    fileprivate func configureStorage() {
-        storageRef = Storage.storage().reference()
-        
-    }
-    
+//    fileprivate func configureDatabase() {
+//        //MARK CALL FLAG API
+//        // Do any additional setup after loading the view.
+//        dbRef = Database.database().reference(withPath: "data")
+//
+//    }
+//
+//    fileprivate func configureStorage() {
+//        storageRef = Storage.storage().reference()
+//
+//    }
+//
     
     //Mark From Firebase
     fileprivate func loadFromDatabase(){
         LoadingViewActivity.show(self.collectionView, loadingText: "Loading")
         dbRef.observe(.value, with: {snapshot in
-            
+
             //MARK Iterate over items FROM DATABASE
             var dataModel:[FlagsModel] = []
             for item in snapshot.children {
-                
+
                 if let snapshot = item as? DataSnapshot,
                     let flgItem =  FlagsModel(snapshot: snapshot){
                     dataModel.append(flgItem)
                 }
                 debugPrint("LOADFROM DATABASE: datamodel count.. \(dataModel.count)")
-                
+
             }
-            
+
             //MARK LOAD DATA INTO ARRAY AND RELOAD TABLE
             self.flagModel = dataModel
             self.collectionView.reloadData()
-            
+
         })
-        
+
         LoadingViewActivity.hide()
     }
     

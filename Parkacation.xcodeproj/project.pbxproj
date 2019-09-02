@@ -28,12 +28,13 @@
 		C873D8F9230E3B7700C348F6 /* ParkAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D8F8230E3B7700C348F6 /* ParkAnnotation.swift */; };
 		C873D9012319EF1B00C348F6 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D9002319EF1B00C348F6 /* UserDefaultManager.swift */; };
 		C873D905231AF72800C348F6 /* FireBaseApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D904231AF72700C348F6 /* FireBaseApi.swift */; };
+		C873D907231CCF9F00C348F6 /* ViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D906231CCF9F00C348F6 /* ViewController+Extension.swift */; };
+		C873D90B231D998B00C348F6 /* RoutesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D90A231D998B00C348F6 /* RoutesDetailViewController.swift */; };
 		C87BFF6C23176B7300FF5669 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87BFF6B23176B7300FF5669 /* LoginViewController.swift */; };
 		C89B2F602312FE0B001BC7E5 /* FavoriteParksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89B2F5F2312FE0B001BC7E5 /* FavoriteParksViewController.swift */; };
 		C8B3679122FFDAB5006DFA34 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8B3679022FFDAB5006DFA34 /* MapKit.framework */; };
 		C8E1A27A22F745AD009EE885 /* ParkDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E1A27922F745AD009EE885 /* ParkDetailViewController.swift */; };
 		C8E1A27C22F76B5E009EE885 /* NationalParksModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E1A27B22F76B5E009EE885 /* NationalParksModel.swift */; };
-		C8E1A27E22F7756D009EE885 /* ParkDetailViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E1A27D22F7756D009EE885 /* ParkDetailViewControllerExtension.swift */; };
 		C8E1A28022F783E3009EE885 /* ParkApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E1A27F22F783E3009EE885 /* ParkApi.swift */; };
 		C8E1A28222F78AA5009EE885 /* EndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E1A28122F78AA5009EE885 /* EndPoints.swift */; };
 		C8F5507322FE0F0B003BB134 /* LoadingViewActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F5507222FE0F0B003BB134 /* LoadingViewActivity.swift */; };
@@ -83,13 +84,14 @@
 		C873D8F8230E3B7700C348F6 /* ParkAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkAnnotation.swift; sourceTree = "<group>"; };
 		C873D9002319EF1B00C348F6 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		C873D904231AF72700C348F6 /* FireBaseApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireBaseApi.swift; sourceTree = "<group>"; };
+		C873D906231CCF9F00C348F6 /* ViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Extension.swift"; sourceTree = "<group>"; };
+		C873D90A231D998B00C348F6 /* RoutesDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesDetailViewController.swift; sourceTree = "<group>"; };
 		C87BFF6B23176B7300FF5669 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C89B2F5E2311E8C2001BC7E5 /* Parkacation 2-visits.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Parkacation 2-visits.xcdatamodel"; sourceTree = "<group>"; };
 		C89B2F5F2312FE0B001BC7E5 /* FavoriteParksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteParksViewController.swift; sourceTree = "<group>"; };
 		C8B3679022FFDAB5006DFA34 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		C8E1A27922F745AD009EE885 /* ParkDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkDetailViewController.swift; sourceTree = "<group>"; };
 		C8E1A27B22F76B5E009EE885 /* NationalParksModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NationalParksModel.swift; sourceTree = "<group>"; };
-		C8E1A27D22F7756D009EE885 /* ParkDetailViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkDetailViewControllerExtension.swift; sourceTree = "<group>"; };
 		C8E1A27F22F783E3009EE885 /* ParkApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkApi.swift; sourceTree = "<group>"; };
 		C8E1A28122F78AA5009EE885 /* EndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoints.swift; sourceTree = "<group>"; };
 		C8F5507222FE0F0B003BB134 /* LoadingViewActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewActivity.swift; sourceTree = "<group>"; };
@@ -201,7 +203,6 @@
 				C8223A8F22ED78510032CF1B /* Main.storyboard */,
 				C8223A9522ED78510032CF1B /* Assets.xcassets */,
 				C8223AB622EE52EE0032CF1B /* StateFlagCollectionViewCell.swift */,
-				C8E1A27D22F7756D009EE885 /* ParkDetailViewControllerExtension.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -215,6 +216,8 @@
 				C8F5507422FE66AA003BB134 /* ParkDirectionsViewController.swift */,
 				C89B2F5F2312FE0B001BC7E5 /* FavoriteParksViewController.swift */,
 				C87BFF6B23176B7300FF5669 /* LoginViewController.swift */,
+				C873D906231CCF9F00C348F6 /* ViewController+Extension.swift */,
+				C873D90A231D998B00C348F6 /* RoutesDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -495,6 +498,7 @@
 				C8E1A27C22F76B5E009EE885 /* NationalParksModel.swift in Sources */,
 				C873D9012319EF1B00C348F6 /* UserDefaultManager.swift in Sources */,
 				C8E1A28222F78AA5009EE885 /* EndPoints.swift in Sources */,
+				C873D90B231D998B00C348F6 /* RoutesDetailViewController.swift in Sources */,
 				C8223ACF22F36C820032CF1B /* DatabaseConfig.swift in Sources */,
 				C825754E23010720008359C3 /* FlagsModel.swift in Sources */,
 				C8E1A28022F783E3009EE885 /* ParkApi.swift in Sources */,
@@ -504,11 +508,11 @@
 				C8223AB722EE52EE0032CF1B /* StateFlagCollectionViewCell.swift in Sources */,
 				C8223AC922F1A8FF0032CF1B /* ParkViewController.swift in Sources */,
 				C87BFF6C23176B7300FF5669 /* LoginViewController.swift in Sources */,
-				C8E1A27E22F7756D009EE885 /* ParkDetailViewControllerExtension.swift in Sources */,
 				C812C2ED2303BF9100DC07F0 /* DataController.swift in Sources */,
 				C8223A9422ED78510032CF1B /* Parkacation.xcdatamodeld in Sources */,
 				C89B2F602312FE0B001BC7E5 /* FavoriteParksViewController.swift in Sources */,
 				C8F5507322FE0F0B003BB134 /* LoadingViewActivity.swift in Sources */,
+				C873D907231CCF9F00C348F6 /* ViewController+Extension.swift in Sources */,
 				C8F5507522FE66AA003BB134 /* ParkDirectionsViewController.swift in Sources */,
 				C8E1A27A22F745AD009EE885 /* ParkDetailViewController.swift in Sources */,
 				C8223ACD22F368C00032CF1B /* AllStates.swift in Sources */,

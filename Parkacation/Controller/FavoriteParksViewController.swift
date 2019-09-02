@@ -69,6 +69,9 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(handleSignOut))
+        
     }
     
     
@@ -162,6 +165,15 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
             let coordinates = CLLocationCoordinate2D(latitude: lat, longitude: long)
             
 //            removeSinglePark(coordinate: coordinates)
+            
+            
+            let alert = UIAlertController(title: "Remove Park from Favorites", message: "You can add the park again!", preferredStyle: .alert)
+            
+//            let deleteAction = UIAlertAction(title:"Remove", style: . destructive, handler: {action in
+//                
+//          
+//                
+//            })
 
             self.parks.removeAll()
             
@@ -181,6 +193,57 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
         }
         
     }
+    
+    
+    
+    @IBAction func pinPressed(_ sender: UILongPressGestureRecognizer) {
+        
+        //MARK CHECK PIN FOR STATE
+        print("here is the value \(sender.state.rawValue)")
+        
+        let location = sender.location(in: mapView)
+        
+        let coordinates = mapView.convert(location, toCoordinateFrom: self.mapView)
+        
+        // Save pin to CoreData
+        // COMMENTED OUT FOR 2ND REVIEW
+        //pin = Pin(context: dataController.persistentContainer.viewContext)
+        
+        if sender.state != .began {
+            return
+        }
+        
+        // Add annotation:
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinates
+        
+        //        pin.latitude = travelCoordinates!.latitude
+        //        pin.longitude = travelCoordinates!.longitude
+        //        pin.coordinates = String(pin.latitude)+String(pin.longitude)
+        
+        let long = coordinates.longitude
+        let lat = coordinates.latitude
+        //        let pin = Pin(context: dataController.persistentContainer.viewContext)
+        
+        annotation.title = String(lat)+String(long)
+     
+        
+        self.mapView.removeAnnotation(annotation)
+
+        
+        
+//        let region = MKCoordinateRegion(center: coordinates, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+//        
+//        mapView.setRegion(region, animated: true)
+//        
+//        mapView.addAnnotation(annotation)
+//        
+//        
+//        savePinLocationToCoreData(longitude: long, latitude: lat)
+        
+        
+    }
+    
     
 
 
@@ -294,6 +357,8 @@ extension FavoriteParksViewController: NSFetchedResultsControllerDelegate {
     
     
     func removeAllAnnotations() {
+        
+   
         DispatchQueue.main.async{
         for _annotation in self.mapView.annotations {
             if let annotation = _annotation as? MKAnnotation

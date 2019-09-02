@@ -8,29 +8,29 @@
 
 import Foundation
 import Firebase
-
+import UIKit
 
 class DatabaseConfig {
+
+    static let shared = DatabaseConfig()
+
+    private init() { }
     
-    var dbRef: DatabaseReference!
-    var storageRef: StorageReference!
-    var dataModel:[FlagsModel] = []
-    
-    
-    fileprivate func configureDatabase() -> DatabaseReference {
-          return Database.database().reference()
+    func configureDatabase() -> DatabaseReference {
+          return Database.database().reference(withPath: "data")
     }
     
     
-    fileprivate func configureStorage(){
-         storageRef = Storage.storage().reference()
+    func configureStorage() -> StorageReference{
+         return Storage.storage().reference()
         
     }
     
     //Mark From Firebase
     func loadFromDatabase() -> [FlagsModel]{
     
-        dbRef = configureDatabase()
+        let dbRef = configureDatabase()
+        var dataModel:[FlagsModel] = []
      
         dbRef.observe(.value, with: {snapshot in
             
@@ -40,9 +40,9 @@ class DatabaseConfig {
                 
                 if let snapshot = item as? DataSnapshot,
                     let flagModel =  FlagsModel(snapshot: snapshot){
-                    self.dataModel.append(flagModel)
+                    dataModel.append(flagModel)
                 }
-                debugPrint("LOADFROM DATABASE: datamodel count.. \(self.dataModel.count)")
+                debugPrint("LOADFROM DATABASE: datamodel count.. \(dataModel.count)")
                 
             }
      
@@ -50,8 +50,8 @@ class DatabaseConfig {
     
         //MARK LOAD DATA INTO ARRAY AND RELOAD TABLE
         return dataModel
-        
-        LoadingViewActivity.hide()
+  
     }
     
+ 
 }

@@ -38,27 +38,7 @@ class LoginViewController: UIViewController, LoginButtonDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        
-        //MARK user is already logged in
-        if userIsLoggedIn() {
-            debugPrint("User has logged im prior")
-            let parkController = storyboard?.instantiateViewController(withIdentifier:"TabViewController") as! UITabBarController
-            
-            
-            self.navigationController?.pushViewController(parkController, animated: false)
-//            present(parkController, animated: false, completion: nil)
-            
-            
-            
-        }else {
-            
-            
-            UserDefaults.standard.setValue(false, forKey: "userIsLoggedIn")
-            debugPrint("User has not logged in prior")
-        }
 
-   
         let fbLoginButton = FBLoginButton()
         
         
@@ -113,12 +93,12 @@ class LoginViewController: UIViewController, LoginButtonDelegate {
                     
                     //Check to see if user is not nil
                     if let u = user{
-                        // User is found go to home screen
-                        debugPrint(("Register Sucessful\(u)"))
-                        //SAVED TO USER DEFAULTS
+                    
+                        
+                        //MARK SAVED  KETY TO USER DEFAULTS
                         UserDefaults.standard.setValue(true, forKey: "userIsLoggedIn")
                         
-                        //save to device
+                        //Syncrhronize to write key to device
                         UserDefaults.standard.synchronize()
                         self.performSegue(withIdentifier: "goToTabs", sender: self)
                
@@ -179,6 +159,8 @@ class LoginViewController: UIViewController, LoginButtonDelegate {
             debugPrint("Logged in Successfully with facebook")
             let parkController = storyboard?.instantiateViewController(withIdentifier: "TabViewController") as! UITabBarController
             
+             UserDefaults.standard.setValue(true, forKey: "userIsLoggedIn")
+            
             
             present(parkController, animated: false, completion: nil)
   
@@ -188,26 +170,12 @@ class LoginViewController: UIViewController, LoginButtonDelegate {
     
     func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
         debugPrint("Logged out of facebook")
-    }
-    
-    
-    func finishLoggingIn(){
-
-        let rootViewController = UIApplication.shared.keyWindow?.rootViewController
-
-        guard let mainNavigationController = rootViewController as? ParkViewController else
-        {
-            return
+        performUIUpdatesOnMain {
+            
+            let fbLoginManager : LoginManager = LoginManager()
+            fbLoginManager.logOut()
+            self.dismiss(animated: true, completion: nil)
         }
-
-        mainNavigationController.tabBarController
-        
-        UserDefaults.standard.setValue(true, forKey: "userIsLoggedIn")
-
-        //save to device
-        UserDefaults.standard.synchronize()
-
-        dismiss(animated: true, completion: nil)
     }
     
 

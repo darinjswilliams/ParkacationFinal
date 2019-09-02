@@ -39,6 +39,10 @@ class ParkDirectionsViewController: UIViewController, MKMapViewDelegate {
     
     var etaTotalTime: Double!
     
+    var routeInstruction = [String]()
+    var routeETA: String!
+    var routeDistance: String!
+    
     @IBOutlet weak var parksLabel: UILabel!
     
     override func viewDidLoad() {
@@ -66,6 +70,8 @@ class ParkDirectionsViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(handleSignOut))
         
         LoadingViewActivity.hide()
         self.mapView.showsUserLocation = true
@@ -163,6 +169,9 @@ extension ParkDirectionsViewController {
                 
                 debugPrint(step.instructions)
                 
+                //Populate instructions
+                self.routeInstruction.append(step.instructions)
+                
             }
             
             // GET Distanceo on Route and convert to meters to miles  dividing by 1609.44
@@ -181,7 +190,7 @@ extension ParkDirectionsViewController {
             
             self.etaTotalTime = (eta/AuthenticationUtils.convertSecondsToHours)
             debugPrint("Round total time .. \(String(describing: self.etaTotalTime))")
-            parkPoint.eta = "\(self.etaTotalTime) .. min"
+            parkPoint.eta = "\(String(describing: self.etaTotalTime)) .. min"
             
             
             self.mapView.addOverlay(route.polyline, level: .aboveRoads)
@@ -210,6 +219,14 @@ extension ParkDirectionsViewController {
     }
     
     
+    // When button is tap perform a seque and to look at map directions and eta
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+//        let pin = view.annotation as!
+        
+        performSegue(withIdentifier: "routeDetails", sender: self)
+    }
+    
 //    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
 //        let placemark = MKPlacemark(coordinate: view.annotation!.coordinate, addressDictionary: nil)
 //        // The map item is the restaurant location
@@ -237,13 +254,19 @@ extension ParkDirectionsViewController {
             let parkAnnotation = annotation as! ParkAnnotation
             annotationView?.detailCalloutAccessoryView = UIImageView(image: parkAnnotation.image)
         
-        
-        
+             //MARK Display extra information in callout bubble
+             annotationView!.canShowCallout = true
             // Left Accessory
 //            let leftAccessory = UILabel(frame: CGRect(x: 0,y: 0,width: 30,height: 30))
 //            leftAccessory.text = parkAnnotation.eta
 //            leftAccessory.font = UIFont(name: "Verdana", size: 20)
 //            annotationView?.leftCalloutAccessoryView = leftAccessory
+        
+           //Mark Add a Button
+        let infoButton = UIButton(type: .infoDark) as UIButton
+        
+        
+        annotationView?.rightCalloutAccessoryView = infoButton
         
             
             // Right accessory view
@@ -251,10 +274,23 @@ extension ParkDirectionsViewController {
             let button = UIButton(type: .custom)
             button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
             button.setImage(image, for: UIControl.State())
-            annotationView?.rightCalloutAccessoryView = button
+            annotationView?.leftCalloutAccessoryView = button
         
   
             return annotationView
+    }
+    
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "routeDetails" {
+            let dest = segue.destination as! RoutesDetailViewController
+            
+            dest.routeDirections = self.routeInstruction.reversed()
+            dest.routeETA = self.etaTotalTime
+            dest.routeDistance = self.totalDistance
+            
+        }
     }
     
     // each pin's rendering

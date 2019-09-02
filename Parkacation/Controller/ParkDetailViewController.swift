@@ -84,6 +84,12 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
 
         // Do any additional setup after loading the view.
         
+        
+        //MARK SIGN OUT
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(handleSignOut))
+
+        
+        
         //MARK CORE DATA RELATIONSHIP
       self.stateUS = State(context: dataController.viewContext)
         

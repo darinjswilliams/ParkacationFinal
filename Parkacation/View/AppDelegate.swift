@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import Firebase
 import FBSDKCoreKit
+import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -28,15 +29,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
-        
-        guard let navigationController = window?.rootViewController as? UINavigationController,
-            let parkViewController = navigationController.viewControllers.first as?
-                 ParkViewController else {
-                debugPrint("ParkViewController as root is nil")
-                return true
+        if UserDefaults.standard.bool(forKey: "userIsLoggedIn") == true {
+            
+            
+            //MARK GET INSTANCE OF MAIN STOREBOAARD
+            let mainStoryBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let pkview  = mainStoryBoard.instantiateViewController(withIdentifier:"TabViewController") as! UITabBarController
+            
+            self.window?.rootViewController = pkview
         }
         
-//        parkDetailViewController.dataController = dataController
 
         return true
     }

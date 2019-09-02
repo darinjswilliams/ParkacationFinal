@@ -36,10 +36,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        
+    navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(handleSignOut))
+        
+        
         LoadingViewActivity.show(tableView, loadingText: "Loading")
-        configureDatabase()
-        configureStorage()
-        loadFromDatabase()
+        
+        //Mark Get database Reference
+        dbRef = configureDatabase()
+        
+        
+        //Mark Get storage Referemce
+        storageRef = configureStorage()
+        
+        
+   
         
         LoadingViewActivity.hide()
     }
@@ -51,17 +63,34 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     
-    
-    fileprivate func configureDatabase() {
-        //MARK CALL FLAG API
-        // Do any additional setup after loading the view.
-        dbRef = Database.database().reference(withPath: "data")
-        
+    override func viewWillAppear(_ animated: Bool) {
+       loadFromDatabase()
+       
     }
     
-    fileprivate func configureStorage() {
-        storageRef = Storage.storage().reference()
-    }
+//    @objc func handleSignOut(){
+//
+//        UserDefaults.standard.set(false, forKey: "userIsLoggedIn")
+//        UserDefaults.standard.synchronize()
+//
+//        let mainStoryBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//
+//        let lgView  = mainStoryBoard.instantiateViewController(withIdentifier:"LoginViewController") as! LoginViewController
+//
+//
+//        present(lgView, animated: false, completion: nil)
+//    }
+    
+//    fileprivate func configureDatabase() {
+//        //MARK CALL FLAG API
+//        // Do any additional setup after loading the view.
+//        dbRef = Database.database().reference(withPath: "data")
+//
+//    }
+//
+//    fileprivate func configureStorage() {
+//        storageRef = Storage.storage().reference()
+//    }
     
     //Mark From Firebase
     //REFACTOR INTO CLASS
@@ -87,7 +116,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.tableView.reloadData()
 
         })
-        
+
         LoadingViewActivity.hide()
     }
 
