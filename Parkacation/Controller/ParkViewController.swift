@@ -38,7 +38,6 @@ var existingState: Bool!
     
 var abbrName: String?
     
-var stateUS: State!
 
 
 //lets set up dependencty injections
@@ -61,11 +60,13 @@ override func viewDidLoad() {
     navigationItem.title = "We're Logged in"
     navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(handleSignOut))
     
-    self.stateUS = State(context: dataController.viewContext)
+     // MARK database reference
     dbRef = DatabaseConfig.shared.configureDatabase()
     storageRef =  DatabaseConfig.shared.configureStorage()
  
-    
+    //MARK LETS GET PATH OR CORE DATA SQL LITE FILE TO VIEW
+    let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
+    print(paths[0])
 }
 
     
@@ -74,28 +75,13 @@ override func viewDidLoad() {
         return  UserDefaults.standard.bool(forKey: "userIsLoggedIn")
     }
     
-    
-    
-//    @objc func handleSignOut(){
-//
-//        UserDefaults.standard.set(false, forKey: "userIsLoggedIn")
-//        UserDefaults.standard.synchronize()
-//
-//        let mainStoryBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//
-//        let lgView  = mainStoryBoard.instantiateViewController(withIdentifier:"LoginViewController") as! LoginViewController
-//
-//
-//        present(lgView, animated: false, completion: nil)
-//    }
+
     
     override func viewDidAppear(_ animated: Bool) {
         
         super.viewDidAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
-        
-      
-        
+   
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -173,21 +159,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
 
 extension ParkViewController {
     
- 
 
-//    fileprivate func configureDatabase() {
-//        //MARK CALL FLAG API
-//        // Do any additional setup after loading the view.
-//        dbRef = Database.database().reference(withPath: "data")
-//
-//    }
-//
-//    fileprivate func configureStorage() {
-//        storageRef = Storage.storage().reference()
-//
-//    }
-//
-    
     //Mark From Firebase
     fileprivate func loadFromDatabase(){
         LoadingViewActivity.show(self.collectionView, loadingText: "Loading")

@@ -99,10 +99,7 @@ class ParkDirectionsViewController: UIViewController, MKMapViewDelegate {
             } else {
         self.createRouteOnMap(sourceInfo: self.parkLocation!, destinationInfo: locVal)
             }
-//        self.createMapAnnotation(directionsInfo: self.parkLocation!, directionsName: self.parkName!)
-//        self.createMapAnnotation(directionsInfo: locVal, directionsName: userName)
-        
-        //Stop fetching users location
+
         locationManager.stopUpdatingHeading()
 
     }
@@ -227,14 +224,7 @@ extension ParkDirectionsViewController {
         performSegue(withIdentifier: "routeDetails", sender: self)
     }
     
-//    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-//        let placemark = MKPlacemark(coordinate: view.annotation!.coordinate, addressDictionary: nil)
-//        // The map item is the restaurant location
-//        let mapItem = MKMapItem(placemark: placemark)
-//
-//        let launchOptions = [MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeTransit]
-//        mapItem.openInMaps(launchOptions: launchOptions)
-//    }
+
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             // If annotation is not of type RestaurantAnnotation (MKUserLocation types for instance), return nil
@@ -256,11 +246,7 @@ extension ParkDirectionsViewController {
         
              //MARK Display extra information in callout bubble
              annotationView!.canShowCallout = true
-            // Left Accessory
-//            let leftAccessory = UILabel(frame: CGRect(x: 0,y: 0,width: 30,height: 30))
-//            leftAccessory.text = parkAnnotation.eta
-//            leftAccessory.font = UIFont(name: "Verdana", size: 20)
-//            annotationView?.leftCalloutAccessoryView = leftAccessory
+
         
            //Mark Add a Button
         let infoButton = UIButton(type: .infoDark) as UIButton
@@ -293,34 +279,6 @@ extension ParkDirectionsViewController {
         }
     }
     
-    // each pin's rendering
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        let annotationId = "pin"
-//        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationId) as? MKPinAnnotationView
-//
-//        if pinView == nil {
-//            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationId)
-//            pinView?.canShowCallout = true
-//            pinView?.pinTintColor = .red
-//            pinView?.rightCalloutAccessoryView = UIButton(type:.detailDisclosure)
-//        } else {
-//            pinView?.annotation = annotation
-//        }
-//        return pinView
-//    }
-//
-//    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-//        if (control == view.rightCalloutAccessoryView) {
-//            let app = UIApplication.shared
-//            if let url = view.annotation?.subtitle! {
-//                guard !url.isEmpty else {
-//                    showInfo(withMessage: "No Valid URl")
-//                    return
-//                }
-//                app.open(URL(string: url)!, options: [:], completionHandler: nil)
-//            }
-//        }
-//    }
 }
 
 extension ParkDirectionsViewController: CLLocationManagerDelegate {

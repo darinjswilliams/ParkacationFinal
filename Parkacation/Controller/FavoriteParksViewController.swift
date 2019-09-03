@@ -31,15 +31,6 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
     
     var parkCoordinates : CLLocationCoordinate2D?
     
-//    lazy var doubleTabRecognizer: UITapGestureRecognizer = {
-//
-//        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap))
-//
-//        tapRecognizer.numberOfTapsRequired = 2
-//
-//        return tapRecognizer
-//
-//    }()
    
     //lets set up dependencty injections
     //var dataController:DataController!
@@ -58,10 +49,6 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
     
     var favoriteParksFound: Bool!
     
-//    @objc func didDoubleTap(){
-//        debugPrint("Double Tap")
-//    }
- 
   
     
     var fetchedResultsController : NSFetchedResultsController<NationalPark>!
@@ -77,10 +64,10 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        LoadingViewActivity.show(self.mapView, loadingText: "Loading Favorite Parks")
+
         
-        
-        
+        LoadingViewActivity.show(self.tableView, loadingText: "Loading Favorite Parks")
+            
         // Do any additional setup after loading the view.
         self.favoritePark = "Favorite"
         
@@ -99,11 +86,17 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
             
         } else {
             debugPrint("Favoite Parks Found")
-            reloadMapAnnotations()
+         
+            if !parks.isEmpty {
+                for park in parks {
+                    let coordinates = CLLocationCoordinate2D(latitude: park.latitude, longitude: park.longitude)
+                    addParkPin(coordinates: coordinates, title: park.title!, subtitle: park.medialUrl!)
+                }
+            }
             
             self.tableView.reloadData()
-            
-            self.mapView.reloadInputViews()
+//
+//            self.mapView.reloadInputViews()
         }
     }
     
@@ -163,30 +156,21 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
             
             
             let coordinates = CLLocationCoordinate2D(latitude: lat, longitude: long)
-            
-//            removeSinglePark(coordinate: coordinates)
+    
             
             
             let alert = UIAlertController(title: "Remove Park from Favorites", message: "You can add the park again!", preferredStyle: .alert)
             
-//            let deleteAction = UIAlertAction(title:"Remove", style: . destructive, handler: {action in
-//                
-//          
-//                
-//            })
+            
 
             self.parks.removeAll()
             
             checkForFavoriteParks()
             
-            removeAllAnnotations()
-
-            reloadMapAnnotations()
             
-             self.tableView.reloadData()
-            
-//             self.mapView.reloadInputViews()
-            
+           updateUIMapAnnotation()
+     
+            self.tableView.reloadData()
             
         } catch let error {
             debugPrint("FavoriteParkController: \(error.localizedDescription)")
@@ -226,9 +210,9 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
         //        let pin = Pin(context: dataController.persistentContainer.viewContext)
         
         annotation.title = String(lat)+String(long)
-     
         
-        self.mapView.removeAnnotation(annotation)
+        // Update Pins
+        updateUIMapAnnotation()
 
         
         
@@ -244,7 +228,67 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
         
     }
     
+      private func updateUIMapAnnotation() {
+        
+        // clean up annotations first
+       DispatchQueue.main.async {
+            self.mapView.removeAnnotations(self.mapView.annotations)
+        }
+        
+        // We will create an MKPointAnnotation for each dictionary in "locations". The
+        // point annotations will be stored in this array, and then provided to the map view.
+        var annotations = [MKPointAnnotation]()
+        
+        
+        // The "locations" array is loaded with the sample data below. We are using the dictionaries
+        // to create map annotations. This would be more stylish if the dictionaries were being
+        // used to create custom structs. Perhaps StudentLocation structs.
+        
+        for dictionary in self.parks {
+            
+            // Notice that the float values are being used to create CLLocationDegree values.
+            // This is a version of the Double type.
+            
+            
+            let lat = CLLocationDegrees(dictionary.latitude as Double)
+            let long = CLLocationDegrees(dictionary.longitude as Double)
+            
+            // The lat and long are used to create a CLLocationCoordinates2D instance.
+            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+            
+
+            let mediaURL = dictionary.medialUrl
+            
+            // Here we create the annotation and set its coordiate, title, and subtitle properties
+            let annotation = MKPointAnnotation()
+            annotation.subtitle = mediaURL
+            
+            // Finally we place the annotation in an array of annotations.
+            
     
+            annotations.append(annotation)
+        
+        }
+        
+       DispatchQueue.main.async {
+            // When the array is complete, we add the annotations to the map.
+//            self.mapView.addAnnotations(annotations)
+        
+        
+        if !self.parks.isEmpty {
+            for park in self.parks {
+                let coordinates = CLLocationCoordinate2D(latitude: park.latitude, longitude: park.longitude)
+                self.addParkPin(coordinates: coordinates, title: park.title!, subtitle: park.medialUrl!)
+            }
+        }
+        
+        
+        
+        }
+        
+        
+        
+    }
 
 
 }
@@ -333,19 +377,23 @@ extension FavoriteParksViewController: NSFetchedResultsControllerDelegate {
             for park in parks {
                 
                 //MARK ADD COORDINATES TO CORE DATA
-                debugPrint("ParksDetailView: ViewDidLoad: Parks are not empty \(park.latitude)")
+               
                 guard let title = park.title else {
+                    debugPrint("ParksDetailView: Title Parks are empty \(String(describing: park.title))")
                     return
                 }
                 
                 
                 guard let media = park.medialUrl else {
+                    debugPrint("ParksDetailView: Medial Parks are empty \(String(describing: park.medialUrl))")
                     return
                 }
                 
-                
-                addParkPin(coordinates: CLLocationCoordinate2D(latitude: park.latitude, longitude: park.longitude), title: title, subtitle: media )
-                
+                DispatchQueue.main.async {
+              
+                    self.addParkPin(coordinates: CLLocationCoordinate2D(latitude: park.latitude, longitude: park.longitude), title: title, subtitle: media )
+            
+                }
             }
             
 //        } else {
@@ -355,30 +403,6 @@ extension FavoriteParksViewController: NSFetchedResultsControllerDelegate {
 //        }
     }
     
-    
-    func removeAllAnnotations() {
-        
-   
-        DispatchQueue.main.async{
-        for _annotation in self.mapView.annotations {
-            if let annotation = _annotation as? MKAnnotation
-            {
-            self.mapView.removeAnnotation(annotation)
-        }
-      }
-    }
-}
-    
-    func removeSinglePark(coordinate: CLLocationCoordinate2D) {
-    
-        let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-        
-        self.mapView.removeAnnotation(annotation)
-        
-        
-        
-    }
     
     func addParkPin(coordinates: CLLocationCoordinate2D, title: String, subtitle: String) {
         let annotation = MKPointAnnotation()
@@ -394,35 +418,46 @@ extension FavoriteParksViewController: NSFetchedResultsControllerDelegate {
     
     
 //    // each pin's rendering
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        let annotationId = "pin"
-//        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationId) as? MKPinAnnotationView
-//
-////            pinView?.addGestureRecognizer(doubleTabRecognizer)
-//
-//        if pinView == nil {
-//            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationId)
-//            pinView?.canShowCallout = true
-//            pinView?.pinTintColor = .blue
-//            pinView?.rightCalloutAccessoryView = UIButton(type:.detailDisclosure)
-//        } else {
-//            pinView?.annotation = annotation
-//        }
-//        return pinView
-//    }
-//
-//    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-//        if (control == view.rightCalloutAccessoryView) {
-//            let app = UIApplication.shared
-//            if let url = view.annotation?.subtitle! {
-//                guard !url.isEmpty else {
-//                    showInfo(withMessage: "No Valid URl")
-//                    return
-//                }
-//                app.open(URL(string: url)!, options: [:], completionHandler: nil)
-//            }
-//        }
-//    }
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+     
+        let annotationId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationId) as? MKPinAnnotationView
+
+//            pinView?.addGestureRecognizer(doubleTabRecognizer)
+
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationId)
+            pinView?.canShowCallout = true
+            pinView?.pinTintColor = .blue
+            pinView?.rightCalloutAccessoryView = UIButton(type:.detailDisclosure)
+        } else {
+            pinView?.annotation = annotation
+        }
+        return pinView
+    }
+
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if (control == view.rightCalloutAccessoryView) {
+            let app = UIApplication.shared
+            if let url = view.annotation?.subtitle! {
+                guard !url.isEmpty else {
+                    showInfo(withMessage: "No Valid URl")
+                    return
+                }
+                app.open(URL(string: url)!, options: [:], completionHandler: nil)
+            }
+        }
+    }
+    
+    
+    func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
+        if (fullyRendered) {
+            performUIUpdatesOnMain {
+                 LoadingViewActivity.hide()
+            }
+        }
+    }
     
 }
 

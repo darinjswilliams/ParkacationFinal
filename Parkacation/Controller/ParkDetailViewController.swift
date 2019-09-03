@@ -36,12 +36,11 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
      private var blockOperation = BlockOperation()
 
     
-    //lets set up dependencty injections
-//    var dataController:DataController!
+     // MARK ets set up dependencty injection
     
     var dataController: DataController! {
-        var object = UIApplication.shared.delegate
-        var appDelegate = object as! AppDelegate
+        let object = UIApplication.shared.delegate
+        let appDelegate = object as! AppDelegate
         return appDelegate.dataController
     }
     
@@ -49,8 +48,6 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
     
     var fetchedResultsController : NSFetchedResultsController<NationalPark>!
     
-//
-//   var fetchResultsController : NSFetchedResultsController<State>!
     
     var nationalParks : [NationalPark] = []
     
@@ -115,17 +112,13 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
         
             
         } else {
-   
+            LoadingViewActivity.show(mapView, loadingText: "Loading")
             //CALL API
             debugPrint("IT IS \(String(describing: parkDoesNotExist))")
-              debugPrint("State dones not exists so call API")
+              debugPrint("State does not exists so call API")
             callParkAPI(abbrName: self.abbrName!)
 
             setUpFetchResultController()
-
-
-            //RELOAD TABLE
-//            reloadMapAnnotations()
 
         }
    

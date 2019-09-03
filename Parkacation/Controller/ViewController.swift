@@ -68,29 +68,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
        
     }
     
-//    @objc func handleSignOut(){
-//
-//        UserDefaults.standard.set(false, forKey: "userIsLoggedIn")
-//        UserDefaults.standard.synchronize()
-//
-//        let mainStoryBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//
-//        let lgView  = mainStoryBoard.instantiateViewController(withIdentifier:"LoginViewController") as! LoginViewController
-//
-//
-//        present(lgView, animated: false, completion: nil)
-//    }
-    
-//    fileprivate func configureDatabase() {
-//        //MARK CALL FLAG API
-//        // Do any additional setup after loading the view.
-//        dbRef = Database.database().reference(withPath: "data")
-//
-//    }
-//
-//    fileprivate func configureStorage() {
-//        storageRef = Storage.storage().reference()
-//    }
     
     //Mark From Firebase
     //REFACTOR INTO CLASS

@@ -287,14 +287,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bQs-cf-iZU">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <items>
-                                    <navigationItem title="Route Details" id="kbw-By-Cpk"/>
-                                </items>
-                            </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="F01-bb-HgR">
-                                <rect key="frame" x="0.0" y="72" width="375" height="595"/>
+                                <rect key="frame" x="0.0" y="55" width="375" height="612"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RouteCell" textLabel="7dU-hV-jc1" style="IBUITableViewCellStyleDefault" id="4A1-AW-Baq">
@@ -320,23 +314,73 @@
                                     <outlet property="delegate" destination="XP7-Vu-fzO" id="zUA-79-2S5"/>
                                 </connections>
                             </tableView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bQs-cf-iZU">
+                                <rect key="frame" x="0.0" y="28" width="375" height="27"/>
+                                <items>
+                                    <navigationItem title="Route Details" id="kbw-By-Cpk"/>
+                                </items>
+                            </navigationBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ETA:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mLi-DB-GYp">
+                                <rect key="frame" x="5" y="29" width="35" height="25"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.092135119269999996" green="0.12728682159999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ETA" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Itt-a6-Z4A">
+                                <rect key="frame" x="42" y="28" width="30" height="27"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.16105110449999999" blue="0.19108620139999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Miles" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oAV-CM-WLB">
+                                <rect key="frame" x="308" y="31" width="40" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.16105110449999999" blue="0.19108620139999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Miles:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PdX-ld-5OE">
+                                <rect key="frame" x="255" y="31" width="45" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Xls-Ip-lUq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.092135119269999996" green="0.12728682159999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="oAV-CM-WLB" firstAttribute="leading" secondItem="PdX-ld-5OE" secondAttribute="trailing" constant="8" symbolic="YES" id="2u1-lW-zC8"/>
+                            <constraint firstItem="Itt-a6-Z4A" firstAttribute="top" secondItem="Nzy-r8-bFf" secondAttribute="top" constant="8" id="3dv-JP-bBa"/>
+                            <constraint firstItem="Itt-a6-Z4A" firstAttribute="leading" secondItem="mLi-DB-GYp" secondAttribute="trailing" constant="2" id="5ge-LM-U6X"/>
                             <constraint firstItem="F01-bb-HgR" firstAttribute="trailing" secondItem="Nzy-r8-bFf" secondAttribute="trailing" id="7Q8-kx-suq"/>
                             <constraint firstItem="bQs-cf-iZU" firstAttribute="trailing" secondItem="F01-bb-HgR" secondAttribute="trailing" id="AZk-GY-NGj"/>
+                            <constraint firstItem="mLi-DB-GYp" firstAttribute="leading" secondItem="Nzy-r8-bFf" secondAttribute="leading" constant="5" id="Bcf-me-uUf"/>
+                            <constraint firstItem="mLi-DB-GYp" firstAttribute="top" secondItem="Nzy-r8-bFf" secondAttribute="top" constant="9" id="FpG-D1-Jxk"/>
                             <constraint firstItem="F01-bb-HgR" firstAttribute="top" secondItem="bQs-cf-iZU" secondAttribute="bottom" id="GJd-dT-nyy"/>
+                            <constraint firstItem="Nzy-r8-bFf" firstAttribute="trailing" secondItem="oAV-CM-WLB" secondAttribute="trailing" constant="27" id="Ghy-sn-Vby"/>
+                            <constraint firstItem="PdX-ld-5OE" firstAttribute="top" secondItem="Nzy-r8-bFf" secondAttribute="top" constant="11" id="Gtx-XG-SPf"/>
                             <constraint firstItem="bQs-cf-iZU" firstAttribute="leading" secondItem="F01-bb-HgR" secondAttribute="leading" id="MMy-dO-zxF"/>
+                            <constraint firstItem="PdX-ld-5OE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Itt-a6-Z4A" secondAttribute="trailing" constant="8" symbolic="YES" id="PhZ-4h-AEj"/>
                             <constraint firstItem="F01-bb-HgR" firstAttribute="bottom" secondItem="Nzy-r8-bFf" secondAttribute="bottom" id="Tmp-Qb-R8y"/>
                             <constraint firstItem="bQs-cf-iZU" firstAttribute="top" secondItem="Nzy-r8-bFf" secondAttribute="top" constant="8" id="V01-hc-zFX"/>
+                            <constraint firstItem="Itt-a6-Z4A" firstAttribute="centerY" secondItem="oAV-CM-WLB" secondAttribute="centerY" id="XLU-OE-0bF"/>
+                            <constraint firstItem="Itt-a6-Z4A" firstAttribute="centerY" secondItem="mLi-DB-GYp" secondAttribute="centerY" id="i4i-TA-qEb"/>
+                            <constraint firstItem="PdX-ld-5OE" firstAttribute="top" secondItem="Nzy-r8-bFf" secondAttribute="top" constant="11" id="lmn-lY-49p"/>
+                            <constraint firstItem="oAV-CM-WLB" firstAttribute="top" secondItem="Nzy-r8-bFf" secondAttribute="top" constant="11" id="pp7-kA-W0t"/>
+                            <constraint firstItem="PdX-ld-5OE" firstAttribute="centerY" secondItem="bQs-cf-iZU" secondAttribute="centerY" id="t5J-tb-FND"/>
                             <constraint firstItem="F01-bb-HgR" firstAttribute="leading" secondItem="Nzy-r8-bFf" secondAttribute="leading" id="yzv-7o-pOF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Nzy-r8-bFf"/>
                     </view>
+                    <connections>
+                        <outlet property="distanceLabel" destination="oAV-CM-WLB" id="0Ql-CC-Upc"/>
+                        <outlet property="etaLabel" destination="Itt-a6-Z4A" id="LQ3-d1-a2i"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Vw-eX-6cU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3098" y="212"/>
+            <point key="canvasLocation" x="3096.8000000000002" y="211.84407796101951"/>
         </scene>
         <!--LoginViewController-->
         <scene sceneID="hGv-eY-mN8">

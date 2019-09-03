@@ -58,30 +58,4 @@ extension UIViewController {
         
     }
     
-//    func loadFromDatabase() -> [FlagsModel] {
-//
-//         let loadDb = self.configureDatabase()
-//         var dataModel:[FlagsModel] = []
-//
-//          loadDb .observe(.value, with: {snapshot in
-//
-//            //MARK Iterate over items FROM DATABASE
-//
-//            for item in snapshot.children {
-//
-//                if let snapshot = item as? DataSnapshot,
-//                    let flgItem =  FlagsModel(snapshot: snapshot){
-//                    dataModel.append(flgItem)
-//                }
-//                debugPrint("LOADFROM DATABASE: datamodel count.. \(dataModel.count)")
-//
-//            }
-//
-//            //MARK LOAD DATA INTO ARRAY AND RELOAD TABLE
-//
-//        })
-//
-//         return dataModel
-//
-//    }
 }

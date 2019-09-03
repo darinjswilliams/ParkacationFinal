@@ -17,6 +17,10 @@ class RoutesDetailViewController: UIViewController, UITableViewDataSource, UITab
     
     var routeDistance: Double!
 
+    @IBOutlet weak var etaLabel: UILabel!
+    
+    @IBOutlet weak var distanceLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -41,8 +45,12 @@ class RoutesDetailViewController: UIViewController, UITableViewDataSource, UITab
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "RouteCell")
         
+        self.etaLabel.text = NSString(format: "%.2f", self.routeETA) as String
         
-        let directions = self.routeDirections[(indexPath as NSIndexPath).row]
+        self.distanceLabel.text = NSString(format: "%.1f", self.routeDistance) as String
+        
+        
+        let directions = self.routeDirections[(indexPath  as NSIndexPath).row]
         
         cell?.textLabel?.text = directions
         
