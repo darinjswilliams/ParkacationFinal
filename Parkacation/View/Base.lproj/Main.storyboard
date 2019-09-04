@@ -90,6 +90,7 @@
                     <navigationItem key="navigationItem" title="Parkacation" id="wik-3e-RYn"/>
                     <connections>
                         <outlet property="collectionView" destination="qx1-oI-e8a" id="vAM-ya-v1p"/>
+                        <outlet property="flowLayOut" destination="6Be-EG-rCt" id="DER-WZ-N7E"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h4r-Zi-xqX" userLabel="First Responder" sceneMemberID="firstResponder"/>

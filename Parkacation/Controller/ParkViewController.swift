@@ -38,7 +38,9 @@ var existingState: Bool!
     
 var abbrName: String?
     
+@IBOutlet weak var flowLayOut: UICollectionViewFlowLayout!
 
+    
 
 //lets set up dependencty injections
     
@@ -81,7 +83,18 @@ override func viewDidLoad() {
         
         super.viewDidAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
-   
+        
+        
+        //MARK FLOW LAYOUT
+        let space:CGFloat = 2.5
+        let dimension = (view.frame.size.width - (2 * space)) / 3.5
+         let hdimension = (view.frame.size.width - (2 * space)) / 3.5
+        flowLayOut.minimumInteritemSpacing = space
+        flowLayOut.minimumLineSpacing = space
+        flowLayOut.itemSize = CGSize(width: dimension, height: hdimension)
+    
+        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
