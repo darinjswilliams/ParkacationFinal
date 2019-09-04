@@ -16,18 +16,13 @@
 		C8223A9622ED78510032CF1B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8223A9522ED78510032CF1B /* Assets.xcassets */; };
 		C8223A9922ED78510032CF1B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8223A9722ED78510032CF1B /* LaunchScreen.storyboard */; };
 		C8223AA422ED78510032CF1B /* ParkacationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8223AA322ED78510032CF1B /* ParkacationTests.swift */; };
-		C8223AB522ED7BEE0032CF1B /* States.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8223AB422ED7BEE0032CF1B /* States.swift */; };
 		C8223AB722EE52EE0032CF1B /* StateFlagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8223AB622EE52EE0032CF1B /* StateFlagCollectionViewCell.swift */; };
-		C8223ABD22EE754C0032CF1B /* StateFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8223ABC22EE754C0032CF1B /* StateFlag.swift */; };
 		C8223AC722F140C30032CF1B /* AuthenticationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8223AC622F140C30032CF1B /* AuthenticationUtils.swift */; };
 		C8223AC922F1A8FF0032CF1B /* ParkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8223AC822F1A8FF0032CF1B /* ParkViewController.swift */; };
 		C8223ACB22F31EB60032CF1B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8223ACA22F31EB60032CF1B /* GoogleService-Info.plist */; };
-		C8223ACD22F368C00032CF1B /* AllStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8223ACC22F368C00032CF1B /* AllStates.swift */; };
 		C8223ACF22F36C820032CF1B /* DatabaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8223ACE22F36C820032CF1B /* DatabaseConfig.swift */; };
 		C825754E23010720008359C3 /* FlagsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C825754D23010720008359C3 /* FlagsModel.swift */; };
 		C873D8F9230E3B7700C348F6 /* ParkAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D8F8230E3B7700C348F6 /* ParkAnnotation.swift */; };
-		C873D9012319EF1B00C348F6 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D9002319EF1B00C348F6 /* UserDefaultManager.swift */; };
-		C873D905231AF72800C348F6 /* FireBaseApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D904231AF72700C348F6 /* FireBaseApi.swift */; };
 		C873D907231CCF9F00C348F6 /* ViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D906231CCF9F00C348F6 /* ViewController+Extension.swift */; };
 		C873D90B231D998B00C348F6 /* RoutesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D90A231D998B00C348F6 /* RoutesDetailViewController.swift */; };
 		C87BFF6C23176B7300FF5669 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87BFF6B23176B7300FF5669 /* LoginViewController.swift */; };
@@ -71,19 +66,14 @@
 		C8223A9F22ED78510032CF1B /* ParkacationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParkacationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8223AA322ED78510032CF1B /* ParkacationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkacationTests.swift; sourceTree = "<group>"; };
 		C8223AA522ED78510032CF1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C8223AB422ED7BEE0032CF1B /* States.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = States.swift; sourceTree = "<group>"; };
 		C8223AB622EE52EE0032CF1B /* StateFlagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateFlagCollectionViewCell.swift; sourceTree = "<group>"; };
-		C8223ABC22EE754C0032CF1B /* StateFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateFlag.swift; sourceTree = "<group>"; };
 		C8223AC622F140C30032CF1B /* AuthenticationUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationUtils.swift; sourceTree = "<group>"; };
 		C8223AC822F1A8FF0032CF1B /* ParkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkViewController.swift; sourceTree = "<group>"; };
 		C8223ACA22F31EB60032CF1B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		C8223ACC22F368C00032CF1B /* AllStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllStates.swift; sourceTree = "<group>"; };
 		C8223ACE22F36C820032CF1B /* DatabaseConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseConfig.swift; sourceTree = "<group>"; };
 		C825754D23010720008359C3 /* FlagsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagsModel.swift; sourceTree = "<group>"; };
 		C873D8F52307B8E000C348F6 /* Parkacation 2-mediaURl-title.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Parkacation 2-mediaURl-title.xcdatamodel"; sourceTree = "<group>"; };
 		C873D8F8230E3B7700C348F6 /* ParkAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkAnnotation.swift; sourceTree = "<group>"; };
-		C873D9002319EF1B00C348F6 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
-		C873D904231AF72700C348F6 /* FireBaseApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireBaseApi.swift; sourceTree = "<group>"; };
 		C873D906231CCF9F00C348F6 /* ViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Extension.swift"; sourceTree = "<group>"; };
 		C873D90A231D998B00C348F6 /* RoutesDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesDetailViewController.swift; sourceTree = "<group>"; };
 		C87BFF6B23176B7300FF5669 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -163,7 +153,6 @@
 		C8223A8A22ED78510032CF1B /* Parkacation */ = {
 			isa = PBXGroup;
 			children = (
-				C873D8FF2319EEE100C348F6 /* Services */,
 				C8223ACA22F31EB60032CF1B /* GoogleService-Info.plist */,
 				C8223AB322ED78A50032CF1B /* Utils */,
 				C8223AB222ED789C0032CF1B /* Network */,
@@ -235,23 +224,11 @@
 		C8223AB322ED78A50032CF1B /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				C8223AB422ED7BEE0032CF1B /* States.swift */,
-				C8223ABC22EE754C0032CF1B /* StateFlag.swift */,
 				C8223AC622F140C30032CF1B /* AuthenticationUtils.swift */,
-				C8223ACC22F368C00032CF1B /* AllStates.swift */,
 				C8E1A28122F78AA5009EE885 /* EndPoints.swift */,
 				C8F5507222FE0F0B003BB134 /* LoadingViewActivity.swift */,
 			);
 			path = Utils;
-			sourceTree = "<group>";
-		};
-		C873D8FF2319EEE100C348F6 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				C873D904231AF72700C348F6 /* FireBaseApi.swift */,
-				C873D9002319EF1B00C348F6 /* UserDefaultManager.swift */,
-			);
-			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -496,13 +473,11 @@
 			files = (
 				C873D8F9230E3B7700C348F6 /* ParkAnnotation.swift in Sources */,
 				C8E1A27C22F76B5E009EE885 /* NationalParksModel.swift in Sources */,
-				C873D9012319EF1B00C348F6 /* UserDefaultManager.swift in Sources */,
 				C8E1A28222F78AA5009EE885 /* EndPoints.swift in Sources */,
 				C873D90B231D998B00C348F6 /* RoutesDetailViewController.swift in Sources */,
 				C8223ACF22F36C820032CF1B /* DatabaseConfig.swift in Sources */,
 				C825754E23010720008359C3 /* FlagsModel.swift in Sources */,
 				C8E1A28022F783E3009EE885 /* ParkApi.swift in Sources */,
-				C873D905231AF72800C348F6 /* FireBaseApi.swift in Sources */,
 				C8223A8E22ED78510032CF1B /* ViewController.swift in Sources */,
 				C8223A8C22ED78510032CF1B /* AppDelegate.swift in Sources */,
 				C8223AB722EE52EE0032CF1B /* StateFlagCollectionViewCell.swift in Sources */,
@@ -515,10 +490,7 @@
 				C873D907231CCF9F00C348F6 /* ViewController+Extension.swift in Sources */,
 				C8F5507522FE66AA003BB134 /* ParkDirectionsViewController.swift in Sources */,
 				C8E1A27A22F745AD009EE885 /* ParkDetailViewController.swift in Sources */,
-				C8223ACD22F368C00032CF1B /* AllStates.swift in Sources */,
-				C8223ABD22EE754C0032CF1B /* StateFlag.swift in Sources */,
 				C8223AC722F140C30032CF1B /* AuthenticationUtils.swift in Sources */,
-				C8223AB522ED7BEE0032CF1B /* States.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

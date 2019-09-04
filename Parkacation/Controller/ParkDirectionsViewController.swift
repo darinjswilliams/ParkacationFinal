@@ -89,7 +89,6 @@ class ParkDirectionsViewController: UIViewController, MKMapViewDelegate {
         
         debugPrint(("location latitude = \(locVal.latitude) and Longitude = \(locVal.longitude)"))
         
-        let userName = "current position"
         
         self.coordinates2D = locVal
         
@@ -118,7 +117,7 @@ extension ParkDirectionsViewController {
         
         if (directionsName.contains("current position")){
           
-            annotation.subtitle = "Travel Time \(self.etaTotalTime)..Total Distance \(self.totalDistance)"
+            annotation.subtitle = "Travel Time \(String(describing: self.etaTotalTime))..Total Distance \(String(describing: self.totalDistance))"
         }
             debugPrint("Current Count \(mapAnnotations.count)")
             mapAnnotations.append(annotation)
@@ -129,9 +128,7 @@ extension ParkDirectionsViewController {
     
     
     func createRouteOnMap(sourceInfo:CLLocationCoordinate2D, destinationInfo: CLLocationCoordinate2D){
-        
-      
-        
+ 
         let  sourcePlaceMark  = MKPlacemark(coordinate: sourceInfo)
         let destinationPlaceMark  = MKPlacemark(coordinate: destinationInfo)
         let directionRequest = MKDirections.Request()
@@ -218,8 +215,7 @@ extension ParkDirectionsViewController {
     
     // When button is tap perform a seque and to look at map directions and eta
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        
-//        let pin = view.annotation as!
+    
         
         performSegue(withIdentifier: "routeDetails", sender: self)
     }

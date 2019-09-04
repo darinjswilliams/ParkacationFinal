@@ -36,8 +36,8 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
     //var dataController:DataController!
     
     var dataController: DataController! {
-        var object = UIApplication.shared.delegate
-        var appDelegate = object as! AppDelegate
+        let object = UIApplication.shared.delegate
+        let appDelegate = object as! AppDelegate
         return appDelegate.dataController
     }
     
@@ -95,8 +95,7 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
             }
             
             self.tableView.reloadData()
-//
-//            self.mapView.reloadInputViews()
+
         }
     }
     
@@ -133,50 +132,50 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
     }
     
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        do {
-    
-            
-            let parkLocation = fetchedResultsController.object(at: indexPath)
-            
-            debugPrint("Update Core DAta Visit for \(String(describing: parkLocation.parks))")
-           
-            
-            //MARK Remove Favorite Name assigin to park in CoreData
-            parkLocation.setValue(nil, forKey: "visit")
-            
-            try dataController.persistentContainer.viewContext.save()
-            
-            
-            let lat = CLLocationDegrees(parkLocation.latitude)
-            let long = CLLocationDegrees(parkLocation.longitude)
-            
-            debugPrint("\(lat) and \(long)")
-            
-            
-            let coordinates = CLLocationCoordinate2D(latitude: lat, longitude: long)
-    
-            
-            
-            let alert = UIAlertController(title: "Remove Park from Favorites", message: "You can add the park again!", preferredStyle: .alert)
-            
-            
-
-            self.parks.removeAll()
-            
-            checkForFavoriteParks()
-            
-            
-           updateUIMapAnnotation()
-     
-            self.tableView.reloadData()
-            
-        } catch let error {
-            debugPrint("FavoriteParkController: \(error.localizedDescription)")
-        }
-        
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//
+//        do {
+//
+//
+//            let parkLocation = fetchedResultsController.object(at: indexPath)
+//
+//            debugPrint("Update Core DAta Visit for \(String(describing: parkLocation.parks))")
+//
+//
+//            //MARK Remove Favorite Name assigin to park in CoreData
+//            parkLocation.setValue(nil, forKey: "visit")
+//
+//            try dataController.persistentContainer.viewContext.save()
+//
+//
+//            let lat = CLLocationDegrees(parkLocation.latitude)
+//            let long = CLLocationDegrees(parkLocation.longitude)
+//
+//            debugPrint("\(lat) and \(long)")
+//
+//
+//            let coordinates = CLLocationCoordinate2D(latitude: lat, longitude: long)
+//
+//
+//
+//            let alert = UIAlertController(title: "Remove Park from Favorites", message: "You can add the park again!", preferredStyle: .alert)
+//
+//
+//
+//            self.parks.removeAll()
+//
+//            checkForFavoriteParks()
+//
+//
+//           updateUIMapAnnotation()
+//
+//            self.tableView.reloadData()
+//
+//        } catch let error {
+//            debugPrint("FavoriteParkController: \(error.localizedDescription)")
+//        }
+//
+//    }
     
     
     

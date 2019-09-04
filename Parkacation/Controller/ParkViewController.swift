@@ -16,8 +16,6 @@ class ParkViewController: UIViewController,  UICollectionViewDelegate, UICollect
 {
     
     
-var allStates = USFlags.allFlags
-    
 @IBOutlet weak var collectionView: UICollectionView!
     
 var dbRef: DatabaseReference!
@@ -25,8 +23,6 @@ var dbRef: DatabaseReference!
 var storageRef: StorageReference!
     
 var flagModel = [FlagsModel]()
-    
-var parkFilterByCoordinates: [Parks] = [Parks]()
     
 var fetchResultsController : NSFetchedResultsController<NationalPark>!
 
@@ -73,7 +69,9 @@ override func viewDidLoad() {
 
     
   fileprivate func userIsLoggedIn() -> Bool {
-        
+    
+    
+        //MARK Core Data
         return  UserDefaults.standard.bool(forKey: "userIsLoggedIn")
     }
     
@@ -241,12 +239,11 @@ extension ParkViewController {
             let totalCount = try fetchResultsController.managedObjectContext.count(for: fetchRequest)
             
             if totalCount > 0 {
-                print("total count \(totalCount)")
+                debugPrint("total count \(totalCount)")
                 debugPrint("Existing State is true")
                 self.existingState = true
             } else {
                 debugPrint("Existing State is false")
-                existingState = false
                 self.existingState = false
             }
             

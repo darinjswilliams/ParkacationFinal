@@ -95,8 +95,6 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
         debugPrint("ParkDetailViewController: Here is the StateName \(String(describing: abbrName))")
         
         //Load coordinates data to Map of National Park
-       
-
 
         if parkDoesNotExist! {
            
@@ -141,8 +139,7 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
-//        fetchedResultsController = nil
+
     }
     
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
@@ -170,7 +167,7 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
             try dataController.persistentContainer.viewContext.save()
              debugPrint("Saved favorite park")
         } catch let error {
-            debugPrint("Error saving Favorite Park")
+            debugPrint("Error saving Favorite Park \(error.localizedDescription)")
         }
         
         
@@ -232,6 +229,8 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
         //Send Park Name
         parkDirectionsController.parkName = parkLocation.parks
         
+        
+        //Send State Name 
         parkDirectionsController.stateFlag = self.abbrName!
         
         self.navigationController?.pushViewController(parkDirectionsController, animated: true)
@@ -334,28 +333,6 @@ extension ParkDetailViewController: NSFetchedResultsControllerDelegate  {
         }
     }
     
-    
-
-    
-    func handleParkCoordinates(parkCoord:[Geometry]?, error:Error?){
-
-
-        guard let parkCoord = parkCoord else {
-            showInfo(withMessage: "Unable to Download Park Coordinates")
-            print(error!)
-            return
-        }
-
-        for pk in parkCoord {
-            debugPrint("Lat..\(pk.lat)....\(pk.lng)")
-            self.geoCoordinates[pk.lat] = pk.lng
-            self.coorDictionary.append(geoCoordinates)
-            debugPrint("Size of dictionary \(self.coorDictionary.count)")
-        }
-
-        
-        
-    }
     
     
     func addParkPin(coordinates: CLLocationCoordinate2D, title: String, subtitle: String) {
@@ -525,7 +502,7 @@ extension ParkDetailViewController {
             
             tableView.reloadData()
          
-//            tableView.reloadData()
+ 
             debugPrint("ParkViewController: Saving NationalPark to Core data : \(String(describing: natPark.parks))")
         }
         catch let error

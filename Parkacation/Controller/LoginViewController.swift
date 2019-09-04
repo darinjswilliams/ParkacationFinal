@@ -92,7 +92,7 @@ class LoginViewController: UIViewController, LoginButtonDelegate {
                 Auth.auth().createUser(withEmail: emailAddr, password: passWrd, completion: { (user, error) in
                     
                     //Check to see if user is not nil
-                    if let u = user{
+                    if user != nil{
                     
                         
                         //MARK SAVED  KETY TO USER DEFAULTS

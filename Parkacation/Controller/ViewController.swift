@@ -15,7 +15,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
     @IBOutlet weak var tableView: UITableView!
-    var allStates = USFlags.allFlags
+ 
     var dbRef: DatabaseReference!
     var storageRef: StorageReference!
     var flagModel = [FlagsModel]()
@@ -30,15 +30,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return appDelegate.dataController
     }
     
-   //SETUP CACHE FOR IMAGES
-   let cache = NSCache<NSURL, UIImage>()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        
-    navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(handleSignOut))
+       
+      navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(handleSignOut))
         
         
         LoadingViewActivity.show(tableView, loadingText: "Loading")
@@ -49,10 +48,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         //Mark Get storage Referemce
         storageRef = configureStorage()
-        
-        
-   
-        
+
         LoadingViewActivity.hide()
     }
     
@@ -70,9 +66,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
     //Mark From Firebase
-    //REFACTOR INTO CLASS
     func loadFromDatabase(){
+        
         LoadingViewActivity.show(tableView, loadingText: "Loading")
+        
         dbRef.observe(.value, with: {snapshot in
 
             //MARK Iterate over items FROM DATABASE
@@ -84,11 +81,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     dataModel.append(flgItem)
                 }
 
-
              }
 
             //MARK LOAD DATA INTO ARRAY AND RELOAD TABLE
-            // NEED TO GET FROM CACHE
             self.flagModel = dataModel
             self.tableView.reloadData()
 
@@ -197,12 +192,10 @@ extension ViewController {
             let totalCount = try fetchResultsController.managedObjectContext.count(for: fetchRequest)
             
             if totalCount > 0 {
-                print("total count \(totalCount)")
                 debugPrint("Existing State is true")
                 self.existingState = true
             } else {
                 debugPrint("Existing State is false")
-                existingState = false
                 self.existingState = false
             }
             
