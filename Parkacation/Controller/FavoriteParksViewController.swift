@@ -131,53 +131,7 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
         return cell!
     }
     
-    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//
-//        do {
-//
-//
-//            let parkLocation = fetchedResultsController.object(at: indexPath)
-//
-//            debugPrint("Update Core DAta Visit for \(String(describing: parkLocation.parks))")
-//
-//
-//            //MARK Remove Favorite Name assigin to park in CoreData
-//            parkLocation.setValue(nil, forKey: "visit")
-//
-//            try dataController.persistentContainer.viewContext.save()
-//
-//
-//            let lat = CLLocationDegrees(parkLocation.latitude)
-//            let long = CLLocationDegrees(parkLocation.longitude)
-//
-//            debugPrint("\(lat) and \(long)")
-//
-//
-//            let coordinates = CLLocationCoordinate2D(latitude: lat, longitude: long)
-//
-//
-//
-//            let alert = UIAlertController(title: "Remove Park from Favorites", message: "You can add the park again!", preferredStyle: .alert)
-//
-//
-//
-//            self.parks.removeAll()
-//
-//            checkForFavoriteParks()
-//
-//
-//           updateUIMapAnnotation()
-//
-//            self.tableView.reloadData()
-//
-//        } catch let error {
-//            debugPrint("FavoriteParkController: \(error.localizedDescription)")
-//        }
-//
-//    }
-    
-    
+  
     
     @IBAction func pinPressed(_ sender: UILongPressGestureRecognizer) {
         
@@ -213,16 +167,7 @@ class FavoriteParksViewController: UIViewController, MKMapViewDelegate,UITableVi
         // Update Pins
         updateUIMapAnnotation()
 
-        
-        
-//        let region = MKCoordinateRegion(center: coordinates, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-//        
-//        mapView.setRegion(region, animated: true)
-//        
-//        mapView.addAnnotation(annotation)
-//        
-//        
-//        savePinLocationToCoreData(longitude: long, latitude: lat)
+    
         
         
     }
@@ -372,7 +317,7 @@ extension FavoriteParksViewController: NSFetchedResultsControllerDelegate {
     
     
     fileprivate func reloadMapAnnotations() {
-//        if !self.parks.isEmpty{
+
             for park in parks {
                 
                 //MARK ADD COORDINATES TO CORE DATA
@@ -395,11 +340,7 @@ extension FavoriteParksViewController: NSFetchedResultsControllerDelegate {
                 }
             }
             
-//        } else {
-//
-//            debugPrint("Parks are empty")
-//
-//        }
+
     }
     
     
@@ -495,13 +436,7 @@ extension FavoriteParksViewController {
             if park.latitude == lat && park.longitude == long {
                 
                 debugPrint("State \(String(describing: park.stateAbbrName))")
-                debugPrint(park.parks)
-                debugPrint(park.state)
-                debugPrint(park.title)
-                debugPrint(park.medialUrl)
-                debugPrint(park.latitude)
-                debugPrint(park.longitude)
-                debugPrint(park.visit)
+    
             }
             
             
