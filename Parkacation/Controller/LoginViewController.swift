@@ -29,12 +29,7 @@ class LoginViewController: UIViewController, LoginButtonDelegate {
     
     @IBOutlet weak var signInRegisterButton: UIButton!
     
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
- 
-    }
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
 

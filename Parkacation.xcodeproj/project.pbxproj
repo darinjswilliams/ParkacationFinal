@@ -10,7 +10,7 @@
 		9B29BE93EEC10D05BFC32519 /* Pods_Parkacation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7EE38B5555C88C27109E81 /* Pods_Parkacation.framework */; };
 		C812C2ED2303BF9100DC07F0 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C812C2EC2303BF9100DC07F0 /* DataController.swift */; };
 		C8223A8C22ED78510032CF1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8223A8B22ED78510032CF1B /* AppDelegate.swift */; };
-		C8223A8E22ED78510032CF1B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8223A8D22ED78510032CF1B /* ViewController.swift */; };
+		C8223A8E22ED78510032CF1B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8223A8D22ED78510032CF1B /* HomeViewController.swift */; };
 		C8223A9122ED78510032CF1B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8223A8F22ED78510032CF1B /* Main.storyboard */; };
 		C8223A9422ED78510032CF1B /* Parkacation.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C8223A9222ED78510032CF1B /* Parkacation.xcdatamodeld */; };
 		C8223A9622ED78510032CF1B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8223A9522ED78510032CF1B /* Assets.xcassets */; };
@@ -57,7 +57,7 @@
 		C812C2EC2303BF9100DC07F0 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		C8223A8822ED78510032CF1B /* Parkacation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Parkacation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8223A8B22ED78510032CF1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C8223A8D22ED78510032CF1B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C8223A8D22ED78510032CF1B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		C8223A9022ED78510032CF1B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C8223A9322ED78510032CF1B /* Parkacation.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Parkacation.xcdatamodel; sourceTree = "<group>"; };
 		C8223A9522ED78510032CF1B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -199,7 +199,7 @@
 		C8223AB122ED78930032CF1B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				C8223A8D22ED78510032CF1B /* ViewController.swift */,
+				C8223A8D22ED78510032CF1B /* HomeViewController.swift */,
 				C8223AC822F1A8FF0032CF1B /* ParkViewController.swift */,
 				C8E1A27922F745AD009EE885 /* ParkDetailViewController.swift */,
 				C8F5507422FE66AA003BB134 /* ParkDirectionsViewController.swift */,
@@ -478,7 +478,7 @@
 				C8223ACF22F36C820032CF1B /* DatabaseConfig.swift in Sources */,
 				C825754E23010720008359C3 /* FlagsModel.swift in Sources */,
 				C8E1A28022F783E3009EE885 /* ParkApi.swift in Sources */,
-				C8223A8E22ED78510032CF1B /* ViewController.swift in Sources */,
+				C8223A8E22ED78510032CF1B /* HomeViewController.swift in Sources */,
 				C8223A8C22ED78510032CF1B /* AppDelegate.swift in Sources */,
 				C8223AB722EE52EE0032CF1B /* StateFlagCollectionViewCell.swift in Sources */,
 				C8223AC922F1A8FF0032CF1B /* ParkViewController.swift in Sources */,

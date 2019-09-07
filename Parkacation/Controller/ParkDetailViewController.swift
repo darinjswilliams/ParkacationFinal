@@ -102,7 +102,7 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
             // CLEAR PINS FROM MAP
             debugPrint("IT IS \(String(describing: parkDoesNotExist))")
             //MARK CALL COREDATA
-            debugPrint("State exists so call Core Data")
+          
             setUpFetchResultController()
             
             //RELOAD MAP ANNOTATIONS
@@ -112,8 +112,9 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
         } else {
             LoadingViewActivity.show(mapView, loadingText: "Loading")
             //CALL API
-            debugPrint("IT IS \(String(describing: parkDoesNotExist))")
-              debugPrint("State does not exists so call API")
+        
+            showInfo(withMessage: "Park does not exist, downloading Information")
+            
             callParkAPI(abbrName: self.abbrName!)
 
             setUpFetchResultController()

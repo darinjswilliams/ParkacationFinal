@@ -174,6 +174,16 @@ extension ParkViewController {
     //Mark From Firebase
     fileprivate func loadFromDatabase(){
         LoadingViewActivity.show(self.collectionView, loadingText: "Loading")
+        
+        //LETS CHECK TO SEE IF WE HAVE A CONNECTION TO REMOTE SERVER
+        // IF NOT CONNECTION DISPLAY MESSAGE ELSE CONTINUE
+        guard dbRef != nil else {
+            
+            showInfo(withMessage: "Remote Server is Currently Down, Please try later")
+            
+            return
+        }
+        
         dbRef.observe(.value, with: {snapshot in
 
             //MARK Iterate over items FROM DATABASE

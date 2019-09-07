@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Parkacation/View/AppDelegate.swift"
-            timestampString = "589260203.195055"
+            timestampString = "589524930.555174"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "36"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Parkacation/Controller/RoutesDetailViewController.swift"
-            timestampString = "589260203.195194"
+            timestampString = "589524930.555257"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "55"
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Parkacation/Controller/ParkDirectionsViewController.swift"
-            timestampString = "589260203.195263"
+            timestampString = "589524930.555308"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "160"
-            endingLineNumber = "160"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
             landmarkName = "createRouteOnMap(sourceInfo:destinationInfo:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -57,45 +57,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Parkacation/Controller/FavoriteParksViewController.swift"
-            timestampString = "589260203.195316"
+            filePath = "Parkacation/Controller/ParkViewController.swift"
+            timestampString = "589524930.555359"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "268"
-            endingLineNumber = "268"
-            landmarkName = "updateUIMapAnnotation()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Parkacation/Controller/FavoriteParksViewController.swift"
-            timestampString = "589260203.195394"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "246"
-            endingLineNumber = "246"
-            landmarkName = "updateUIMapAnnotation()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Parkacation/Controller/FavoriteParksViewController.swift"
-            timestampString = "589260203.1954449"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "259"
-            endingLineNumber = "259"
-            landmarkName = "updateUIMapAnnotation()"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
+            landmarkName = "loadFromDatabase()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -49,6 +49,7 @@ class ParkDirectionsViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
          LoadingViewActivity.show(mapView, loadingText: "Calculating Fastest Route")
         
+//        tabBarController?.tabBar.isHidden = false
         
         // Do any additional setup after loading the view.
         debugPrint("Here are the park coordination \(String(describing: parkLocation?.latitude)) and \(String(describing: parkLocation?.longitude))")
@@ -65,6 +66,12 @@ class ParkDirectionsViewController: UIViewController, MKMapViewDelegate {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
+        
+        
+        //Hide tabbar when map is displayed
+     tabBarController?.tabBar.isHidden = true
+        
+//     navigationController?.toolbar.isHidden = true
         
     }
     
@@ -106,6 +113,27 @@ class ParkDirectionsViewController: UIViewController, MKMapViewDelegate {
 }
 
 extension ParkDirectionsViewController {
+    
+    //MARK mapview overlay
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let render = MKPolylineRenderer(overlay: overlay)
+        
+        render.strokeColor = UIColor.blue
+        render.lineWidth = 4.0
+        
+        return render
+    }
+    
+    
+    // When button is tap perform a seque to look at map directions and eta
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+        
+        performSegue(withIdentifier: "routeDetails", sender: self)
+    }
+    
+    
+    //MARK Map Functions
     
     func createMapAnnotation(directionsInfo:CLLocationCoordinate2D, directionsName: String) {
         
@@ -194,32 +222,25 @@ extension ParkDirectionsViewController {
             let rect = route.polyline.boundingMapRect
             self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
         }
-        
-   
-        
+ 
         self.mapView.addAnnotation(parkPoint)
-        self.mapView.delegate = self
+//        self.mapView.delegate = self
         
     }
     
-    //MARK mapview overlay
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let render = MKPolylineRenderer(overlay: overlay)
-        
-        render.strokeColor = UIColor.blue
-        render.lineWidth = 4.0
-        
-        return render
+   
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "routeDetails" {
+            let dest = segue.destination as! RoutesDetailViewController
+            
+            dest.routeDirections = self.routeInstruction.reversed()
+            dest.routeETA = self.etaTotalTime
+            dest.routeDistance = self.totalDistance
+            tabBarController?.tabBar.isHidden = true
+            
+        }
     }
-    
-    
-    // When button is tap perform a seque and to look at map directions and eta
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-    
-        
-        performSegue(withIdentifier: "routeDetails", sender: self)
-    }
-    
 
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -264,16 +285,7 @@ extension ParkDirectionsViewController {
     
     
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "routeDetails" {
-            let dest = segue.destination as! RoutesDetailViewController
-            
-            dest.routeDirections = self.routeInstruction.reversed()
-            dest.routeETA = self.etaTotalTime
-            dest.routeDistance = self.totalDistance
-            
-        }
-    }
+ 
     
 }
 

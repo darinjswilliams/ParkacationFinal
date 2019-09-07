@@ -17,7 +17,7 @@ class LoadingViewActivity {
     
     static func show() {
         guard let currentMainWindow = UIApplication.shared.keyWindow else {
-            print("No main window.")
+            debugPrint("No main window.")
             return
         }
         show(currentMainWindow)
@@ -25,7 +25,7 @@ class LoadingViewActivity {
     
     static func show(_ loadingText: String) {
         guard let currentMainWindow = UIApplication.shared.keyWindow else {
-            print("No main window.")
+            debugPrint("No main window.")
             return
         }
         show(currentMainWindow, loadingText: loadingText)
