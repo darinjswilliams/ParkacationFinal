@@ -85,7 +85,7 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
         //MARK SIGN OUT
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(handleSignOut))
 
-        
+      
         
         //MARK CORE DATA RELATIONSHIP
       self.stateUS = State(context: dataController.viewContext)
@@ -134,6 +134,7 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
          LoadingViewActivity.hide()
+        tabBarController?.tabBar.isHidden = false
        
     }
     

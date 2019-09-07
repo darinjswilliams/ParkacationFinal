@@ -69,7 +69,7 @@ class ParkDirectionsViewController: UIViewController, MKMapViewDelegate {
         
         
         //Hide tabbar when map is displayed
-     tabBarController?.tabBar.isHidden = true
+        tabBarController?.tabBar.isHidden = true
         
 //     navigationController?.toolbar.isHidden = true
         
