@@ -25,6 +25,8 @@
 		C873D8F9230E3B7700C348F6 /* ParkAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D8F8230E3B7700C348F6 /* ParkAnnotation.swift */; };
 		C873D907231CCF9F00C348F6 /* ViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D906231CCF9F00C348F6 /* ViewController+Extension.swift */; };
 		C873D90B231D998B00C348F6 /* RoutesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D90A231D998B00C348F6 /* RoutesDetailViewController.swift */; };
+		C873D90F23241D9700C348F6 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D90E23241D9700C348F6 /* Reachability.swift */; };
+		C873D9182324649000C348F6 /* Reach.swift in Sources */ = {isa = PBXBuildFile; fileRef = C873D9172324649000C348F6 /* Reach.swift */; };
 		C87BFF6C23176B7300FF5669 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87BFF6B23176B7300FF5669 /* LoginViewController.swift */; };
 		C89B2F602312FE0B001BC7E5 /* FavoriteParksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89B2F5F2312FE0B001BC7E5 /* FavoriteParksViewController.swift */; };
 		C8B3679122FFDAB5006DFA34 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8B3679022FFDAB5006DFA34 /* MapKit.framework */; };
@@ -76,6 +78,9 @@
 		C873D8F8230E3B7700C348F6 /* ParkAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkAnnotation.swift; sourceTree = "<group>"; };
 		C873D906231CCF9F00C348F6 /* ViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Extension.swift"; sourceTree = "<group>"; };
 		C873D90A231D998B00C348F6 /* RoutesDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesDetailViewController.swift; sourceTree = "<group>"; };
+		C873D90E23241D9700C348F6 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		C873D91023242C1500C348F6 /* Parkacation.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Parkacation.entitlements; sourceTree = "<group>"; };
+		C873D9172324649000C348F6 /* Reach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reach.swift; sourceTree = "<group>"; };
 		C87BFF6B23176B7300FF5669 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C89B2F5E2311E8C2001BC7E5 /* Parkacation 2-visits.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Parkacation 2-visits.xcdatamodel"; sourceTree = "<group>"; };
 		C89B2F5F2312FE0B001BC7E5 /* FavoriteParksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteParksViewController.swift; sourceTree = "<group>"; };
@@ -153,6 +158,7 @@
 		C8223A8A22ED78510032CF1B /* Parkacation */ = {
 			isa = PBXGroup;
 			children = (
+				C873D91023242C1500C348F6 /* Parkacation.entitlements */,
 				C8223ACA22F31EB60032CF1B /* GoogleService-Info.plist */,
 				C8223AB322ED78A50032CF1B /* Utils */,
 				C8223AB222ED789C0032CF1B /* Network */,
@@ -217,6 +223,8 @@
 				C8223ACE22F36C820032CF1B /* DatabaseConfig.swift */,
 				C8E1A27F22F783E3009EE885 /* ParkApi.swift */,
 				C812C2EC2303BF9100DC07F0 /* DataController.swift */,
+				C873D90E23241D9700C348F6 /* Reachability.swift */,
+				C873D9172324649000C348F6 /* Reach.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -288,6 +296,15 @@
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
+							};
+							com.apple.Multipath = {
+								enabled = 0;
+							};
+							com.apple.NetworkExtensions.iOS = {
+								enabled = 0;
+							};
+							com.apple.WAC = {
+								enabled = 0;
 							};
 						};
 					};
@@ -480,11 +497,13 @@
 				C8E1A28022F783E3009EE885 /* ParkApi.swift in Sources */,
 				C8223A8E22ED78510032CF1B /* HomeViewController.swift in Sources */,
 				C8223A8C22ED78510032CF1B /* AppDelegate.swift in Sources */,
+				C873D9182324649000C348F6 /* Reach.swift in Sources */,
 				C8223AB722EE52EE0032CF1B /* StateFlagCollectionViewCell.swift in Sources */,
 				C8223AC922F1A8FF0032CF1B /* ParkViewController.swift in Sources */,
 				C87BFF6C23176B7300FF5669 /* LoginViewController.swift in Sources */,
 				C812C2ED2303BF9100DC07F0 /* DataController.swift in Sources */,
 				C8223A9422ED78510032CF1B /* Parkacation.xcdatamodeld in Sources */,
+				C873D90F23241D9700C348F6 /* Reachability.swift in Sources */,
 				C89B2F602312FE0B001BC7E5 /* FavoriteParksViewController.swift in Sources */,
 				C8F5507322FE0F0B003BB134 /* LoadingViewActivity.swift in Sources */,
 				C873D907231CCF9F00C348F6 /* ViewController+Extension.swift in Sources */,

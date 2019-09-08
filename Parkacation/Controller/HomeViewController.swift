@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  HomeViewController.swift
 //  Parkacation
 //
 //  Created by Darin Williams on 7/28/19.
@@ -40,7 +40,10 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
       navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(handleSignOut))
         
         
+        
         LoadingViewActivity.show(tableView, loadingText: "Loading")
+        
+          if Reachability.isConnectedToNetwork() == true {
         
         //Mark Get database Reference
         dbRef = configureDatabase()
@@ -50,6 +53,14 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         storageRef = configureStorage()
 
         LoadingViewActivity.hide()
+            
+          } else {
+            
+            showInfo(withMessage: "No internet connection")
+            
+            return
+        }
+            
     }
     
     
@@ -70,8 +81,18 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         LoadingViewActivity.show(tableView, loadingText: "Loading")
         
+        //MARK check internet connection
+        if Reachability.isConnectedToNetwork() == true {
+            debugPrint("Connected to the internet")
+            
         dbRef.observe(.value, with: {snapshot in
 
+            //MARK check database connection for connectivity
+            guard snapshot.exists() else {
+                self.showInfo(withMessage: "Lost Database Connectivity, try later")
+                return
+            }
+            
             //MARK Iterate over items FROM DATABASE
             var dataModel:[FlagsModel] = []
             for item in snapshot.children {
@@ -88,6 +109,12 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             self.tableView.reloadData()
 
         })
+        } else {
+            self.showInfo(withMessage: "No internet connection")
+            //  Do something
+            
+            return
+        }
 
         LoadingViewActivity.hide()
     }

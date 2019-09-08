@@ -15,6 +15,8 @@ import Foundation
 class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource {
 
     
+    @IBOutlet weak var parkIndicator: UIActivityIndicatorView!
+    
     var abbrName: String?
     
     var parkDoesNotExist: Bool?
@@ -80,6 +82,7 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+//           self.parkIndicator.startAnimating()
         
         
         //MARK SIGN OUT
@@ -97,29 +100,50 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
         //Load coordinates data to Map of National Park
 
         if parkDoesNotExist! {
-           
+            
+        
             
             // CLEAR PINS FROM MAP
             debugPrint("IT IS \(String(describing: parkDoesNotExist))")
+            
+            if Reachability.isConnectedToNetwork() == true {
+                
             //MARK CALL COREDATA
-          
+//            self.parkIndicator.stopAnimating()
             setUpFetchResultController()
             
             //RELOAD MAP ANNOTATIONS
             reloadMapAnnotations()
+                
+            } else {
+                
+                self.showInfo(withMessage: "Lost Internet Connection")
+                
+            }
         
+      
             
         } else {
-            LoadingViewActivity.show(mapView, loadingText: "Loading")
-            //CALL API
-        
-            showInfo(withMessage: "Park does not exist, downloading Information")
             
-            callParkAPI(abbrName: self.abbrName!)
-
-            setUpFetchResultController()
+            
+            if Reachability.isConnectedToNetwork() == true {
+                
+                // MARK Call Natationl Park Service
+                callParkAPI(abbrName: self.abbrName!)
+                
+                setUpFetchResultController()
+                
+            } else {
+                
+                 self.showInfo(withMessage: "Park Service is currently down. Please try later")
+                
+            }
+          
+       
 
         }
+        
+           self.parkIndicator.stopAnimating()
    
     }
     
@@ -127,13 +151,14 @@ class ParkDetailViewController: UIViewController, UIGestureRecognizerDelegate, M
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-         LoadingViewActivity.show(mapView, loadingText: "Loading")
+         self.parkIndicator.startAnimating()
+        
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-         LoadingViewActivity.hide()
+       self.parkIndicator.stopAnimating()
         tabBarController?.tabBar.isHidden = false
        
     }
@@ -333,6 +358,8 @@ extension ParkDetailViewController: NSFetchedResultsControllerDelegate  {
             debugPrint("Parks are empty")
             
         }
+        
+           self.parkIndicator.stopAnimating()
     }
     
     
@@ -442,9 +469,17 @@ extension ParkDetailViewController {
     
     func handleGetParkInfo(parkInfo:[Parks]?, error:Error?){
         
+        // MARK IF Park service is not up Inform user that service is currently down
+        guard let parkInfo = parkInfo, !parkInfo.isEmpty else
+        {
+            
+              showInfo(withMessage: "Park Service is currently down. Please try later")
+            
+            return
+            
+        }
         
-        guard let parkInfo = parkInfo, !parkInfo.isEmpty else { return }
-        
+  
         
         //MARK SAVE STATE TO CORE DATA
         stateUS.abbrName = self.abbrName
@@ -474,7 +509,7 @@ extension ParkDetailViewController {
             
         }
         
-       
+       self.parkIndicator.stopAnimating()
         
         
     }

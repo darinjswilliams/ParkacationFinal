@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 import FBSDKLoginKit
+import SystemConfiguration
 
 class LoginViewController: UIViewController, LoginButtonDelegate {
  
@@ -29,11 +30,19 @@ class LoginViewController: UIViewController, LoginButtonDelegate {
     
     @IBOutlet weak var signInRegisterButton: UIButton!
     
-   
+    @IBOutlet weak var signInActivityInd: UIActivityIndicatorView!
+    
+    
+
+   private let reachability = SCNetworkReachabilityCreateWithName(nil , "www.udacity.com")
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-
+        
+        checkReachable()
+        
         let fbLoginButton = FBLoginButton()
         
         
@@ -44,9 +53,50 @@ class LoginViewController: UIViewController, LoginButtonDelegate {
         fbLoginButton.delegate = self
     }
     
+    
+    private func checkReachable(){
+        
+        var flags = SCNetworkReachabilityFlags()
+        SCNetworkReachabilityGetFlags(self.reachability!, &flags)
+        
+        if(isNetworkReachable(with: flags)){
+            
+            debugPrint(flags)
+            
+            if(flags.contains(.isWWAN)){
+                
+                debugPrint("Reachable isWWAN")
+                
+            }
+        } else if(!isNetworkReachable(with:flags)){
+            self.showInfo(withMessage: "No Internet Connection")
+            return
+        }
+        
+        
+    }
+    
+    
+    private func isNetworkReachable(with flags: SCNetworkReachabilityFlags) -> Bool {
+        
+        let isReachable = flags.contains(.reachable)
+        let needsConnection = flags.contains(.connectionRequired)
+        let canConnectAutomatically = flags.contains(.connectionOnDemand) || flags.contains(.connectionOnTraffic)
+          let canConnectionWithoutUserInteraction = canConnectAutomatically && !flags.contains(.interventionRequired)
+        return isReachable && (!needsConnection || canConnectionWithoutUserInteraction)
+    }
+    
+    
     @IBAction func signInButtonTapped(_ sender: UIButton) {
         
-        LoadingViewActivity.show(self.view, loadingText: "Authenticating")
+     signInActivityInd.startAnimating()
+        
+    checkReachable()
+    
+        
+    if Reachability.isInternetAvailable() == true {
+        
+  
         
         
         if let emailAddr = self.emailAddress.text, let passWrd = self.passWord.text{
@@ -111,8 +161,15 @@ class LoginViewController: UIViewController, LoginButtonDelegate {
             
             
         }
+    } else {
         
-        LoadingViewActivity.hide()
+        signInActivityInd.startAnimating()
+        
+        self.showInfo(withMessage: "No Internet Connection")
+        
+        }
+        
+
     }
     
     
@@ -146,6 +203,13 @@ class LoginViewController: UIViewController, LoginButtonDelegate {
     
     func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
         
+         signInActivityInd.startAnimating()
+        
+         checkReachable()
+        
+        if Reachability.isInternetAvailable() == true {
+            
+        
         if error != nil{
             debugPrint(error)
             return
@@ -160,6 +224,11 @@ class LoginViewController: UIViewController, LoginButtonDelegate {
             present(parkController, animated: false, completion: nil)
   
    
+        }
+            
+        } else {
+            
+            self.showInfo(withMessage: "No internet Connection, Please try later")
         }
     }
     

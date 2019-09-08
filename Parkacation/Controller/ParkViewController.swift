@@ -54,6 +54,10 @@ override func viewDidLoad() {
     
     // Do any additional setup after loading the view.
     //MARK CORE DATA RELATIONSHIP
+    NotificationCenter.default.addObserver(self, selector: #selector(ParkViewController.networkStatusChanged(_:)), name: NSNotification.Name(rawValue: ReachabilityStatusChangedNotification), object: nil)
+    
+    Reach().monitorReachabilityChanges()
+    
     
     navigationItem.title = "We're Logged in"
     navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(handleSignOut))
@@ -66,6 +70,14 @@ override func viewDidLoad() {
     let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
     print(paths[0])
 }
+    
+    
+    @objc func networkStatusChanged(_ notification: Notification) {
+        if let userInfo = (notification as NSNotification).userInfo {
+            print(userInfo)
+        }
+        
+    }
 
     
   fileprivate func userIsLoggedIn() -> Bool {
@@ -177,32 +189,61 @@ extension ParkViewController {
         
         //LETS CHECK TO SEE IF WE HAVE A CONNECTION TO REMOTE SERVER
         // IF NOT CONNECTION DISPLAY MESSAGE ELSE CONTINUE
-        guard dbRef != nil else {
+        let status = Reach().connectionStatus()
+        switch status {
+        case .unknown, .offline:
             
-            showInfo(withMessage: "Remote Server is Currently Down, Please try later")
+            debugPrint("Not connected")
+            self.showInfo(withMessage: "Lost Connection")
+            return
+            
+        case .online(.wwan):
+            print("Connected via WWAN")
+        case .online(.wiFi):
+            print("Connected via WiFi")
+        }
+        
+        
+  
+        if Reachability.isConnectedToNetwork() == true {
+            debugPrint("Connected to the internet")
+            
+            
+            dbRef.observe(.value, with: {snapshot in
+                
+                guard snapshot.exists() else {
+                    self.showInfo(withMessage: "Lost Database Connectivity, try later")
+                    return
+                }
+                
+                
+                //MARK Iterate over items FROM DATABASE
+                var dataModel:[FlagsModel] = []
+                for item in snapshot.children {
+                    
+                    if let snapshot = item as? DataSnapshot,
+                        let flgItem =  FlagsModel(snapshot: snapshot){
+                        dataModel.append(flgItem)
+                    }
+                    debugPrint("LOADFROM DATABASE: datamodel count.. \(dataModel.count)")
+                    
+                }
+                
+                //MARK LOAD DATA INTO ARRAY AND RELOAD TABLE
+                self.flagModel = dataModel
+                self.collectionView.reloadData()
+                
+            })
+            
+  
+        } else {
+            self.showInfo(withMessage: "No internet connection")
+            //  Do something
             
             return
         }
         
-        dbRef.observe(.value, with: {snapshot in
 
-            //MARK Iterate over items FROM DATABASE
-            var dataModel:[FlagsModel] = []
-            for item in snapshot.children {
-
-                if let snapshot = item as? DataSnapshot,
-                    let flgItem =  FlagsModel(snapshot: snapshot){
-                    dataModel.append(flgItem)
-                }
-                debugPrint("LOADFROM DATABASE: datamodel count.. \(dataModel.count)")
-
-            }
-
-            //MARK LOAD DATA INTO ARRAY AND RELOAD TABLE
-            self.flagModel = dataModel
-            self.collectionView.reloadData()
-
-        })
 
         LoadingViewActivity.hide()
     }
